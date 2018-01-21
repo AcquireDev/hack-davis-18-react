@@ -7,14 +7,15 @@ import {
   MARK_APPLIED_FAILURE,
   GET_NEW_APPS,
   GET_NEW_APPS_SUCCESS,
-  GET_NEW_APPS_FAILURE
-} from "../actions/application";
+  GET_NEW_APPS_FAILURE,
+} from '../actions/application';
 
 const initialState = {
   applications: [],
   newApplications: [],
   loadingApps: false,
-  error: {}
+  loadingNewApps: false,
+  error: {},
 };
 
 const reducer = (state = initialState, action) => {
@@ -22,36 +23,36 @@ const reducer = (state = initialState, action) => {
     case GET_APPLICATIONS:
       return {
         ...state,
-        loadingApps: true
+        loadingApps: true,
       };
     case GET_APPLICATIONS_SUCCESS:
       return {
         ...state,
         loadingApps: false,
-        applications: action.applications
+        applications: action.applications,
       };
     case GET_APPLICATIONS_FAILURE:
       return {
         ...state,
         loadingApps: false,
-        error: action.error
+        error: action.error,
       };
     case GET_NEW_APPS:
       return {
         ...state,
-        loadingApps: true
+        loadingApps: true,
       };
     case GET_NEW_APPS_SUCCESS:
       return {
         ...state,
         loadingApps: false,
-        newApplications: action.applications
+        newApplications: action.applications,
       };
     case GET_NEW_APPS_FAILURE:
       return {
         ...state,
         loadingApps: false,
-        error: action.error
+        error: action.error,
       };
     default:
       return state;

@@ -6,6 +6,7 @@ import registerServiceWorker from "./registerServiceWorker";
 import store, { history } from "./config/store";
 import Splash from "./screens/Splash.js";
 import Login from "./screens/Login.js";
+import Dashboard from "./screens/Dashboard.js";
 import { Provider } from "react-redux";
 import { Route } from "react-router-dom";
 import { ConnectedRouter } from "react-router-redux";
@@ -16,6 +17,7 @@ ReactDOM.render(
       <div>
         <Route exact path="/" component={Splash} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/dashboard" component={Dashboard} />
       </div>
     </ConnectedRouter>
   </Provider>,

@@ -1,4 +1,5 @@
 import { call, put } from "redux-saga/effects";
+import { push } from "react-router-redux";
 import axios from "axios";
 
 import {
@@ -45,6 +46,7 @@ function* loginUser(action) {
       axios.defaults.headers.common.Authorization = `Bearer ${result.jwt}`;
       // TODO: Save the JWT somewhere locally and on load check if it's there
       yield put({ type: LOGIN_USER_SUCCESS });
+      yield put(push("/dashboard"));
     }
   } catch (error) {
     yield put({ type: LOGIN_USER_FAILURE, error });

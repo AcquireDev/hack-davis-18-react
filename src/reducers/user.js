@@ -2,15 +2,17 @@ import {
   GET_USER,
   GET_USER_SUCCESS,
   GET_USER_FAILURE,
+  LOGIN_USER,
   LOGIN_USER_FAILURE,
   LOGIN_USER_SUCCESS
-} from '../actions/user';
+} from "../actions/user";
 
 const initialState = {
-  email: '',
-  id: '',
+  email: "",
+  id: "",
   loading: false,
-  validated: false
+  validated: false,
+  loginError: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -32,10 +34,20 @@ const reducer = (state = initialState, action) => {
         ...state,
         loading: false
       };
+    case LOGIN_USER:
+      return {
+        ...state,
+        loginError: false
+      };
     case LOGIN_USER_SUCCESS:
       return {
         ...state,
         validated: true
+      };
+    case LOGIN_USER_FAILURE:
+      return {
+        ...state,
+        loginError: true
       };
     default:
       return state;

@@ -29,6 +29,13 @@ class Login extends Component {
   };
 
   render() {
+    let invalidLogin = null;
+    if (this.props.user.loginError) {
+      invalidLogin = (
+        <p>The username or password you have entered is invalid.</p>
+      );
+    }
+
     return (
       <div className="Login">
         <form onSubmit={this.handleSubmit}>
@@ -58,6 +65,7 @@ class Login extends Component {
             Login
           </Button>
         </form>
+        {invalidLogin}
       </div>
     );
   }

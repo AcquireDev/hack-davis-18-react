@@ -6,7 +6,7 @@ import { loginUser, getUser } from "../actions/user";
 
 class Splash extends Component {
   componentDidMount() {
-    this.props.dispatch(push("./Login"));
+    this.props.dispatch(push("/Login"));
   }
 
   render() {

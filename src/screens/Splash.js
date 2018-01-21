@@ -3,11 +3,12 @@ import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
 import { Button, FormGroup, FormControl, ControlLabel, Label } from 'react-bootstrap';
 
-import { loginUser, getUser } from '../actions/user';
+
+import { loginUser, getUser, lookupJWT } from "../actions/user";
 
 class Splash extends Component {
   componentDidMount() {
-    // this.props.dispatch(push('./Login'));
+    this.props.dispatch(lookupJWT());
   }
 
   render() {

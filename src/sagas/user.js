@@ -1,17 +1,29 @@
-import { call, put } from "redux-saga/effects";
+import { call, put, select } from "redux-saga/effects";
+import { push } from "react-router-redux";
 import axios from "axios";
 
 import {
   GET_USER_FAILURE,
   GET_USER_SUCCESS,
   LOGIN_USER_FAILURE,
-  LOGIN_USER_SUCCESS
+  LOGIN_USER_SUCCESS,
+  LOOKUP_JWT_SUCCESS
 } from "../actions/user";
+
+const getToken = state => state.user.token;
 
 function* fetchUser(action) {
   try {
+    const token = yield select(getToken);
+
+    if (!token) {
+      yield put(push("/"));
+    }
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
     const response = yield axios({
       method: "get",
+      headers: { HTTP_AUTHORIZATION: `Bearer ${token}` },
       url: "/current_user.json"
     });
     const result = yield response.data;
@@ -42,13 +54,29 @@ function* loginUser(action) {
       yield put({ type: LOGIN_USER_FAILURE, error: result.error });
     } else {
       // Set header
-      axios.defaults.headers.common.Authorization = `Bearer ${result.jwt}`;
-      // TODO: Save the JWT somewhere locally and on load check if it's there
-      yield put({ type: LOGIN_USER_SUCCESS });
+      // axios.defaults.headers.common.Authorization = `Bearer ${result.jwt}`;
+      yield localStorage.setItem("jwt", result.jwt);
+      yield put({ type: LOGIN_USER_SUCCESS, token: result.jwt });
+      yield put(push("/dashboard"));
     }
   } catch (error) {
     yield put({ type: LOGIN_USER_FAILURE, error });
   }
 }
 
-export { fetchUser, loginUser };
+function* lookupJWT(action) {
+  try {
+    const jwt = yield localStorage.getItem("jwt");
+    yield console.log("JWT: " + jwt);
+    if (jwt && jwt.length > 0) {
+      yield put({ type: LOOKUP_JWT_SUCCESS, jwt });
+      yield put(push("/dashboard"));
+    } else {
+      yield put(push("/login"));
+    }
+  } catch (error) {
+    yield put(push("/login"));
+  }
+}
+
+export { fetchUser, loginUser, lookupJWT };

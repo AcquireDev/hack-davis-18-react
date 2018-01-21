@@ -2,15 +2,19 @@ import {
   GET_USER,
   GET_USER_SUCCESS,
   GET_USER_FAILURE,
+  LOGIN_USER,
   LOGIN_USER_FAILURE,
-  LOGIN_USER_SUCCESS
-} from '../actions/user';
+  LOGIN_USER_SUCCESS,
+  LOOKUP_JWT_SUCCESS
+} from "../actions/user";
 
 const initialState = {
-  email: '',
-  id: '',
+  email: "",
+  id: "",
+  token: "",
   loading: false,
-  validated: false
+  validated: false,
+  loginError: false
 };
 
 const reducer = (state = initialState, action) => {
@@ -32,10 +36,26 @@ const reducer = (state = initialState, action) => {
         ...state,
         loading: false
       };
+    case LOGIN_USER:
+      return {
+        ...state,
+        loginError: false
+      };
     case LOGIN_USER_SUCCESS:
       return {
         ...state,
-        validated: true
+        validated: true,
+        token: action.token
+      };
+    case LOGIN_USER_FAILURE:
+      return {
+        ...state,
+        loginError: true
+      };
+    case LOOKUP_JWT_SUCCESS:
+      return {
+        ...state,
+        token: action.jwt
       };
     default:
       return state;

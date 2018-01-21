@@ -29,6 +29,13 @@ class Login extends Component {
   };
 
   render() {
+    let invalidLogin = null;
+    if (this.props.user.loginError) {
+      invalidLogin = (
+        <p>The username or password you have entered is invalid.</p>
+      );
+    }
+
     return (
       <div
         className="Login"
@@ -68,9 +75,9 @@ class Login extends Component {
 }}
             >
             Login
-            </Button>
-          </form>
-        </div>
+          </Button>
+        </form>
+        {invalidLogin}
       </div>
     );
   }

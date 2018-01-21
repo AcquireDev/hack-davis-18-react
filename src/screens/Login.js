@@ -31,20 +31,25 @@ class Login extends Component {
   render() {
     let invalidLogin = null;
     if (this.props.user.loginError) {
-      invalidLogin = (
-        <p>The username or password you have entered is invalid.</p>
-      );
+      invalidLogin = <p>The username or password you have entered is invalid.</p>;
     }
 
     return (
       <div
         className="Login"
         style={{
- backgroundColor: '#f26866', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center',
-}}
+          backgroundColor: '#f26866',
+          height: '100vh',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
       >
         <div>
-          <div align="center"> <img src="logo.png" style={{ width: '60%', height: '60%' }} /> </div>
+          <div align="center">
+            {' '}
+            <img src="logo.png" style={{ width: '60%', height: '60%' }} />{' '}
+          </div>
           <form onSubmit={this.handleSubmit}>
             <FormGroup controlId="email" bsSize="large">
               <FormControl
@@ -71,13 +76,17 @@ class Login extends Component {
               bsSize="large"
               type="submit"
               style={{
- width: '32%', color: 'white', backgroundColor: '#5ede5c', margin: 'auto',
-}}
+                width: '32%',
+                color: 'white',
+                backgroundColor: '#5ede5c',
+                margin: 'auto',
+              }}
             >
-            Login
-          </Button>
-        </form>
-        {invalidLogin}
+              Login
+            </Button>
+          </form>
+          {invalidLogin}
+        </div>
       </div>
     );
   }

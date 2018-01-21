@@ -10,6 +10,7 @@ import {
 const initialState = {
   email: "",
   id: "",
+  token: "",
   loading: false,
   validated: false,
   loginError: false
@@ -42,7 +43,8 @@ const reducer = (state = initialState, action) => {
     case LOGIN_USER_SUCCESS:
       return {
         ...state,
-        validated: true
+        validated: true,
+        token: action.token
       };
     case LOGIN_USER_FAILURE:
       return {

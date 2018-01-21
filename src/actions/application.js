@@ -1,0 +1,7 @@
+export const GET_APPLICATIONS = "GET_APPLICATIONS";
+export const GET_APPLICATIONS_SUCCESS = "GET_APPLICATIONS_SUCCESS";
+export const GET_APPLICATIONS_FAILURE = "GET_APPLICATIONS_FAILURE";
+
+export const getApplications = () => ({
+  type: GET_APPLICATIONS
+});

@@ -3,6 +3,8 @@ import logger from "redux-logger";
 import createSagaMiddleware from "redux-saga";
 import createHistory from "history/createBrowserHistory";
 import { routerMiddleware } from "react-router-redux";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
 import reducers from "../reducers";
 import rootSaga from "../sagas";
 

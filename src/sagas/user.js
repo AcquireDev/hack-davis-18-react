@@ -1,4 +1,4 @@
-import { call, put } from "redux-saga/effects";
+import { call, put, select } from "redux-saga/effects";
 import { push } from "react-router-redux";
 import axios from "axios";
 
@@ -9,10 +9,14 @@ import {
   LOGIN_USER_SUCCESS
 } from "../actions/user";
 
+const getToken = state => state.user.token;
+
 function* fetchUser(action) {
   try {
+    const token = yield select(getToken);
     const response = yield axios({
       method: "get",
+      headers: { HTTP_AUTHORIZATION: `Bearer ${token}` },
       url: "/current_user.json"
     });
     const result = yield response.data;
@@ -43,9 +47,9 @@ function* loginUser(action) {
       yield put({ type: LOGIN_USER_FAILURE, error: result.error });
     } else {
       // Set header
-      axios.defaults.headers.common.Authorization = `Bearer ${result.jwt}`;
+      // axios.defaults.headers.common.Authorization = `Bearer ${result.jwt}`;
       // TODO: Save the JWT somewhere locally and on load check if it's there
-      yield put({ type: LOGIN_USER_SUCCESS });
+      yield put({ type: LOGIN_USER_SUCCESS, token: result.jwt });
       yield put(push("/dashboard"));
     }
   } catch (error) {

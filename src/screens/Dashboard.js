@@ -6,7 +6,6 @@ import { Button, ListGroup, DropdownButton, MenuItem } from 'react-bootstrap';
 import { getApplications, markApplied, getNewApps } from '../actions/application';
 import ApplicationRow from '../components/ApplicationRow';
 
-
 class Dashboard extends Component {
   componentDidMount() {
     this.handleLoadApps();
@@ -53,36 +52,37 @@ class Dashboard extends Component {
               paddingLeft: '0px',
               display: 'flex',
               flexBasis: '1px',
-
             }}
           >
             <img src="logo.png" style={{ maxWidth: '18000%', objectFit: 'contain' }} />
           </div>
           <div
             style={{
-                display: 'flex',
-                justifyContent: 'center',
-                alignItems: 'center',
-
-              }}
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
           >
-            <p align="center"><DropdownButton
-              bsStyle="default"
-              title="Software Engineer"
-              id="drop1"
-            />
+            <p align="center">
+              <DropdownButton bsStyle="default" key={1} title="Software Engineer" id="drop1">
+                <MenuItem key={1} active>
+                  Software Engineer
+                </MenuItem>
+              </DropdownButton>
             </p>
-            <p align="center"><DropdownButton
-              bsStyle="default"
-              title="Intern"
-              id="drop2"
-            />
+            <p align="center">
+              <DropdownButton bsStyle="default" key={1} title="Intern" id="drop2">
+                <MenuItem key={1} active>
+                  Intern
+                </MenuItem>
+              </DropdownButton>
             </p>
-            <p align="center"><DropdownButton
-              bsStyle="default"
-              title="Bay Area, CA"
-              id="drop3"
-            />
+            <p align="center">
+              <DropdownButton bsStyle="default" key={1} title="Bay Area, CA" id="drop3">
+                <MenuItem key={1} active>
+                  Bay Area, CA
+                </MenuItem>
+              </DropdownButton>
             </p>
           </div>
           <div
@@ -90,14 +90,14 @@ class Dashboard extends Component {
               paddingRight: '20px',
               display: 'flex',
               alignItems: 'center',
-
             }}
           >
-            <p align="right"><font size="30">#</font></p>
+            <p align="right">
+              <font size="30">#</font>
+            </p>
           </div>
-
+        </div>
         <div style={{ margin: '2%' }}>
-          <p>Dashboard</p>
           {loading}
 
           <div style={{ marginLeft: '5%', marginRight: '5%' }}>
@@ -111,8 +111,6 @@ class Dashboard extends Component {
           <div style={{ marginLeft: '5%', marginRight: '5%' }}>
             <ListGroup>{applicationList}</ListGroup>
           </div>
-        </div>
-
         </div>
       </div>
     );

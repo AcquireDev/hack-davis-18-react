@@ -1,31 +1,34 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { push } from "react-router-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { push } from 'react-router-redux';
+import { Button, FormGroup, FormControl, ControlLabel, Label } from 'react-bootstrap';
 
-import { loginUser, getUser } from "../actions/user";
+import { loginUser, getUser } from '../actions/user';
 
 class Splash extends Component {
   componentDidMount() {
-    this.props.dispatch(push("./Login"));
+    // this.props.dispatch(push('./Login'));
   }
 
   render() {
     return (
-      <div style={{ textAlign: "center", height: "100vh" }}>
-        <p>Test</p>
-        <p>
-          <strong>{this.props.user.email}</strong>
-        </p>
+      <div
+        className="Login"
+        style={{
+ backgroundColor: '#f26866', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center',
+}}
+      >
+        <div align="center"> <img src="logo.png" style={{ width: '60%', height: '60%' }} /> </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const user = state.user;
 
   return {
-    user
+    user,
   };
 };
 

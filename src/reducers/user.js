@@ -4,7 +4,8 @@ import {
   GET_USER_FAILURE,
   LOGIN_USER,
   LOGIN_USER_FAILURE,
-  LOGIN_USER_SUCCESS
+  LOGIN_USER_SUCCESS,
+  LOOKUP_JWT_SUCCESS
 } from "../actions/user";
 
 const initialState = {
@@ -50,6 +51,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loginError: true
+      };
+    case LOOKUP_JWT_SUCCESS:
+      return {
+        ...state,
+        token: action.jwt
       };
     default:
       return state;

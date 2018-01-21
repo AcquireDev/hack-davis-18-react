@@ -6,7 +6,8 @@ import {
   GET_USER_FAILURE,
   GET_USER_SUCCESS,
   LOGIN_USER_FAILURE,
-  LOGIN_USER_SUCCESS
+  LOGIN_USER_SUCCESS,
+  LOOKUP_JWT_SUCCESS
 } from "../actions/user";
 
 const getToken = state => state.user.token;
@@ -14,6 +15,12 @@ const getToken = state => state.user.token;
 function* fetchUser(action) {
   try {
     const token = yield select(getToken);
+
+    if (!token) {
+      yield put(push("/"));
+    }
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
     const response = yield axios({
       method: "get",
       headers: { HTTP_AUTHORIZATION: `Bearer ${token}` },
@@ -48,7 +55,7 @@ function* loginUser(action) {
     } else {
       // Set header
       // axios.defaults.headers.common.Authorization = `Bearer ${result.jwt}`;
-      // TODO: Save the JWT somewhere locally and on load check if it's there
+      yield localStorage.setItem("jwt", result.jwt);
       yield put({ type: LOGIN_USER_SUCCESS, token: result.jwt });
       yield put(push("/dashboard"));
     }
@@ -57,4 +64,19 @@ function* loginUser(action) {
   }
 }
 
-export { fetchUser, loginUser };
+function* lookupJWT(action) {
+  try {
+    const jwt = yield localStorage.getItem("jwt");
+    yield console.log("JWT: " + jwt);
+    if (jwt && jwt.length > 0) {
+      yield put({ type: LOOKUP_JWT_SUCCESS, jwt });
+      yield put(push("/dashboard"));
+    } else {
+      yield put(push("/login"));
+    }
+  } catch (error) {
+    yield put(push("/login"));
+  }
+}
+
+export { fetchUser, loginUser, lookupJWT };

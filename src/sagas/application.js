@@ -11,14 +11,15 @@ const getToken = state => state.user.token;
 
 function* fetchApplications(action) {
   try {
-    const state = yield select();
-    const token = yield state.user.token;
-    yield console.log("TOKEN" + token);
+    const token = yield select(getToken);
+
+    if (!token) {
+      yield put(push("/"));
+    }
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
     const response = yield axios({
       method: "get",
-      headers: { HTTP_AUTHORIZATION: `Bearer ${token}` },
       url: "/applications.json"
     });
     const result = yield response.data;

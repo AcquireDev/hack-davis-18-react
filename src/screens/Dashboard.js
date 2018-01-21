@@ -1,10 +1,14 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { Button } from "react-bootstrap";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Button } from 'react-bootstrap';
 
-import { getApplications } from "../actions/application";
+import { getApplications } from '../actions/application';
 
 class Dashboard extends Component {
+  componentDidMount() {
+    this.handleLoadApps();
+  }
+
   handleLoadApps = () => {
     this.props.dispatch(getApplications());
   };
@@ -31,14 +35,14 @@ class Dashboard extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const user = state.user;
   const applications = state.applications.applications;
   const appsLoading = state.applications.loadingApps;
   return {
     user,
     applications,
-    appsLoading
+    appsLoading,
   };
 };
 

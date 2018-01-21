@@ -1,11 +1,8 @@
-import { call, put, select } from "redux-saga/effects";
-import { push } from "react-router-redux";
-import axios from "axios";
+import { call, put, select } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
+import axios from 'axios';
 
-import {
-  GET_APPLICATIONS_SUCCESS,
-  GET_APPLICATIONS_FAILURE
-} from "../actions/application";
+import { GET_APPLICATIONS_SUCCESS, GET_APPLICATIONS_FAILURE } from '../actions/application';
 
 const getToken = state => state.user.token;
 
@@ -14,13 +11,15 @@ function* fetchApplications(action) {
     const token = yield select(getToken);
 
     if (!token) {
-      yield put(push("/"));
+      yield put({ type: GET_APPLICATIONS_FAILURE, error: 'Redirecting...' });
+      yield put(push('/'));
+      return;
     }
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
     const response = yield axios({
-      method: "get",
-      url: "/applications.json"
+      method: 'get',
+      url: '/applications.json',
     });
     const result = yield response.data;
 

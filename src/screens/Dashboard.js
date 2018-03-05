@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Button, ListGroup, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Button, ListGroup, DropdownButton, MenuItem, Table } from 'react-bootstrap';
 
+import { getUser } from '../actions/user';
 import { getApplications, markApplied, getNewApps } from '../actions/application';
 import ApplicationRow from '../components/ApplicationRow';
 
@@ -14,6 +15,7 @@ class Dashboard extends Component {
   handleLoadApps = () => {
     this.props.dispatch(getNewApps());
     this.props.dispatch(getApplications());
+    this.props.dispatch(getUser());
   };
 
   handleApplied = (id) => {
@@ -63,27 +65,27 @@ class Dashboard extends Component {
               alignItems: 'center',
             }}
           >
-            <p align="center">
+            <div align="center">
               <DropdownButton bsStyle="default" key={1} title="Software Engineer" id="drop1">
                 <MenuItem key={1} active>
                   Software Engineer
                 </MenuItem>
               </DropdownButton>
-            </p>
-            <p align="center">
+            </div>
+            <div align="center">
               <DropdownButton bsStyle="default" key={1} title="Intern" id="drop2">
                 <MenuItem key={1} active>
                   Intern
                 </MenuItem>
               </DropdownButton>
-            </p>
-            <p align="center">
+            </div>
+            <div align="center">
               <DropdownButton bsStyle="default" key={1} title="Bay Area, CA" id="drop3">
                 <MenuItem key={1} active>
                   Bay Area, CA
                 </MenuItem>
               </DropdownButton>
-            </p>
+            </div>
           </div>
           <div
             style={{
@@ -92,8 +94,8 @@ class Dashboard extends Component {
               alignItems: 'center',
             }}
           >
-            <p align="right">
-              <font size="30">#</font>
+            <p align="right" style={{ fontWeight: 'lighter', fontSize: '150%' }}>
+              {this.props.user.completed_apps} / {this.props.user.total_apps}
             </p>
           </div>
         </div>
@@ -101,15 +103,52 @@ class Dashboard extends Component {
           {loading}
 
           <div style={{ marginLeft: '5%', marginRight: '5%' }}>
-            <h2>
+            <h2 style={{ color: '#5ede5c' }}>
               New Applications <small>fresh finds!</small>
             </h2>
-            <ListGroup>{newApplicationList}</ListGroup>
+            <Table
+              striped
+              bordered
+              hover
+              style={{
+                tableLayout: 'fixed',
+              }}
+            >
+              <thead>
+                <tr>
+                  <td>Company</td>
+                  <td>URL</td>
+                  <td>Position</td>
+                  <td>Applied?</td>
+                </tr>
+              </thead>
+              <tbody>{newApplicationList}</tbody>
+            </Table>
           </div>
           <br />
 
           <div style={{ marginLeft: '5%', marginRight: '5%' }}>
-            <ListGroup>{applicationList}</ListGroup>
+            <h2 style={{ color: '#5ede5c' }}>
+              The Rest <small>not so fresh finds!</small>
+            </h2>
+            <Table
+              striped
+              bordered
+              hover
+              style={{
+                tableLayout: 'fixed',
+              }}
+            >
+              <thead>
+                <tr>
+                  <td>Company</td>
+                  <td>URL</td>
+                  <td>Position</td>
+                  <td>Applied?</td>
+                </tr>
+              </thead>
+              <tbody>{applicationList}</tbody>
+            </Table>
           </div>
         </div>
       </div>

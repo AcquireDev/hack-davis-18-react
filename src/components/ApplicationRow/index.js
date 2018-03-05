@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
-import { Button, ListGroupItem } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 
 class ApplicationRow extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      visible: true,
+    };
+  }
   handleApplied = () => {
+    this.setState({ visible: false });
     this.props.apply(this.props.app.id);
   };
 
@@ -10,21 +18,31 @@ class ApplicationRow extends Component {
     if (this.props.app.applied) {
       return (
         <Button onClick={this.handleApplied} disabled>
-          Apply
+          Applied
         </Button>
       );
     }
-    return <Button onClick={this.handleApplied}>Apply</Button>;
+    return <Button onClick={this.handleApplied}>Mark as applied</Button>;
   };
 
   render() {
-    return (
-      <ListGroupItem key={this.props.app.id}>
-        <strong>{this.props.app.company} </strong>
-        <span>{this.props.app.title} </span>
-        {this.renderButton()}
-      </ListGroupItem>
-    );
+    if (this.state.visible) {
+      return (
+        <tr>
+          <td>
+            <strong>{this.props.app.company}</strong>
+          </td>
+          <td>
+            <a target="_blank" href={this.props.app.url}>
+              View Job Posting
+            </a>
+          </td>
+          <td>{this.props.app.title}</td>
+          <td>{this.renderButton()}</td>
+        </tr>
+      );
+    }
+    return <span />;
   }
 }
 

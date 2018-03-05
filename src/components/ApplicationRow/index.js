@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button, Dropdown, MenuItem } from 'react-bootstrap';
 
 class ApplicationRow extends Component {
   constructor(props) {
@@ -7,11 +7,18 @@ class ApplicationRow extends Component {
 
     this.state = {
       visible: true,
+      stageTitle: this.props.app.stage,
     };
   }
+
   handleApplied = () => {
     this.setState({ visible: false });
     this.props.apply(this.props.app.id);
+  };
+
+  handleChangeStage = (event) => {
+    this.setState({ stageTitle: event });
+    this.props.setStage(this.props.app.id, event);
   };
 
   renderButton = () => {
@@ -24,6 +31,24 @@ class ApplicationRow extends Component {
     }
     return <Button onClick={this.handleApplied}>Mark as applied</Button>;
   };
+
+  renderStage = () => (
+    <Dropdown disabled={!this.props.app.applied} onSelect={this.handleChangeStage}>
+      <Dropdown.Toggle>{this.state.stageTitle}</Dropdown.Toggle>
+      <Dropdown.Menu>
+        <MenuItem eventKey="not_applied" disabled>
+          Not Applied
+        </MenuItem>
+        <MenuItem eventKey="applied">Applied</MenuItem>
+        <MenuItem eventKey="interviewing">Interviewing</MenuItem>
+        <MenuItem eventKey="offer">Offer</MenuItem>
+        <MenuItem eventKey="accepted">Accepted</MenuItem>
+        <MenuItem divider />
+        <MenuItem eventKey="hidden">Hidden</MenuItem>
+        <MenuItem eventKey="rejected">Rejected</MenuItem>
+      </Dropdown.Menu>
+    </Dropdown>
+  );
 
   render() {
     if (this.state.visible) {
@@ -38,6 +63,10 @@ class ApplicationRow extends Component {
             </a>
           </td>
           <td>{this.props.app.title}</td>
+          <td>
+            {this.renderStage()}{' '}
+            {this.props.app.stage === this.state.stageTitle ? '' : 'Syncing...'}
+          </td>
           <td>{this.renderButton()}</td>
         </tr>
       );

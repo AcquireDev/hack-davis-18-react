@@ -1,6 +1,6 @@
-import { call, put, select } from "redux-saga/effects";
-import { push } from "react-router-redux";
-import axios from "axios";
+import { call, put, select } from 'redux-saga/effects';
+import { push } from 'react-router-redux';
+import axios from 'axios';
 
 import {
   GET_APPLICATIONS_SUCCESS,
@@ -8,8 +8,10 @@ import {
   MARK_APPLIED_SUCCESS,
   MARK_APPLIED_FAILURE,
   GET_NEW_APPS_SUCCESS,
-  GET_NEW_APPS_FAILURE
-} from "../actions/application";
+  GET_NEW_APPS_FAILURE,
+  CHANGE_STAGE_FAILURE,
+  CHANGE_STAGE_SUCCESS,
+} from '../actions/application';
 
 const getToken = state => state.user.token;
 
@@ -18,15 +20,15 @@ function* fetchApplications(action) {
     const token = yield select(getToken);
 
     if (!token) {
-      yield put({ type: GET_APPLICATIONS_FAILURE, error: "Redirecting..." });
-      yield put(push("/"));
+      yield put({ type: GET_APPLICATIONS_FAILURE, error: 'Redirecting...' });
+      yield put(push('/'));
       return;
     }
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
     const response = yield axios({
-      method: "get",
-      url: "/applications.json"
+      method: 'get',
+      url: '/applications.json',
     });
     const result = yield response.data;
 
@@ -45,18 +47,18 @@ function* fetchNewApps(action) {
     const token = yield select(getToken);
 
     if (!token) {
-      yield put({ type: GET_APPLICATIONS_FAILURE, error: "Redirecting..." });
-      yield put(push("/"));
+      yield put({ type: GET_APPLICATIONS_FAILURE, error: 'Redirecting...' });
+      yield put(push('/'));
       return;
     }
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
     const response = yield axios({
-      method: "get",
-      url: "/applications.json",
+      method: 'get',
+      url: '/applications.json',
       params: {
-        new: true
-      }
+        new: true,
+      },
     });
     const result = yield response.data;
 
@@ -75,18 +77,18 @@ function* markApplied(action) {
     const token = yield select(getToken);
 
     if (!token) {
-      yield put({ type: MARK_APPLIED_FAILURE, error: "Redirecting..." });
-      yield put(push("/"));
+      yield put({ type: MARK_APPLIED_FAILURE, error: 'Redirecting...' });
+      yield put(push('/'));
       return;
     }
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
     const response = yield axios({
-      method: "patch",
+      method: 'patch',
       url: `/applications/${action.id}.json`,
       params: {
-        applied: true
-      }
+        applied: true,
+      },
     });
     const result = yield response.data;
 
@@ -100,4 +102,33 @@ function* markApplied(action) {
   }
 }
 
-export { fetchApplications, markApplied, fetchNewApps };
+function* changeStage(action) {
+  try {
+    const token = yield select(getToken);
+
+    if (!token) {
+      yield put({ type: CHANGE_STAGE_FAILURE, error: 'Redirecting...' });
+      yield put(push('/'));
+      return;
+    }
+    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
+
+    const response = yield axios({
+      method: 'patch',
+      url: `/applications/${action.id}.json`,
+      params: {
+        stage: action.stage,
+      },
+    });
+    const result = yield response.data;
+
+    if (result.error) {
+      yield put({ type: CHANGE_STAGE_FAILURE, error: result.error });
+    } else {
+      yield put({ type: CHANGE_STAGE_SUCCESS, result });
+    }
+  } catch (error) {
+    yield put({ type: CHANGE_STAGE_FAILURE, error });
+  }
+}
+export { fetchApplications, markApplied, fetchNewApps, changeStage };

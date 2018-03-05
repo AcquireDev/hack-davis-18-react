@@ -8,9 +8,11 @@ import {
   MARK_APPLIED_SUCCESS,
   MARK_APPLIED,
   GET_NEW_APPS,
+  CHANGE_STAGE,
+  CHANGE_STAGE_SUCCESS,
 } from '../actions/application';
 import { fetchUser, loginUser, lookupJWT } from './user';
-import { fetchApplications, markApplied, fetchNewApps } from './application';
+import { fetchApplications, markApplied, fetchNewApps, changeStage } from './application';
 
 // Selectors go here
 
@@ -24,6 +26,9 @@ export default function* rootSaga() {
   yield takeLatest(MARK_APPLIED_SUCCESS, fetchApplications);
   yield takeLatest(GET_NEW_APPS, fetchNewApps);
   yield takeLatest(MARK_APPLIED_SUCCESS, fetchNewApps);
+  yield takeLatest(CHANGE_STAGE, changeStage);
+  yield takeEvery(CHANGE_STAGE_SUCCESS, fetchApplications);
+  yield takeEvery(CHANGE_STAGE_SUCCESS, fetchNewApps);
   // takeEvery / takeLatest calls go here
 }
 

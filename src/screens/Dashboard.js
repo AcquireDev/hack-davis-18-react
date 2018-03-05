@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import { Button, ListGroup, DropdownButton, MenuItem, Table } from 'react-bootstrap';
+import { DropdownButton, MenuItem, Table } from 'react-bootstrap';
 
 import { getUser } from '../actions/user';
-import { getApplications, markApplied, getNewApps } from '../actions/application';
+import { getApplications, markApplied, getNewApps, changeStage } from '../actions/application';
 import ApplicationRow from '../components/ApplicationRow';
 
 class Dashboard extends Component {
@@ -22,15 +22,29 @@ class Dashboard extends Component {
     this.props.dispatch(markApplied(id));
   };
 
+  handleChangeStage = (id, stage) => {
+    this.props.dispatch(changeStage(id, stage));
+  };
+
   render() {
     const applications = this.props.applications;
     const applicationList = applications.map(application => (
-      <ApplicationRow key={application.id} app={application} apply={this.handleApplied} />
+      <ApplicationRow
+        key={application.id}
+        app={application}
+        apply={this.handleApplied}
+        setStage={this.handleChangeStage}
+      />
     ));
 
     const newApplications = this.props.newApplications;
     const newApplicationList = newApplications.map(application => (
-      <ApplicationRow key={application.id} app={application} apply={this.handleApplied} />
+      <ApplicationRow
+        key={application.id}
+        app={application}
+        apply={this.handleApplied}
+        setStage={this.handleChangeStage}
+      />
     ));
 
     const loading = this.props.appsLoading ? <p>loading...</p> : <span />;
@@ -56,7 +70,7 @@ class Dashboard extends Component {
               flexBasis: '1px',
             }}
           >
-            <img src="logo.png" style={{ maxWidth: '18000%', objectFit: 'contain' }} />
+            <img alt="" src="logo.png" style={{ maxWidth: '18000%', objectFit: 'contain' }} />
           </div>
           <div
             style={{
@@ -119,6 +133,7 @@ class Dashboard extends Component {
                   <td>Company</td>
                   <td>URL</td>
                   <td>Position</td>
+                  <td>Status</td>
                   <td>Applied?</td>
                 </tr>
               </thead>
@@ -144,6 +159,7 @@ class Dashboard extends Component {
                   <td>Company</td>
                   <td>URL</td>
                   <td>Position</td>
+                  <td>Status</td>
                   <td>Applied?</td>
                 </tr>
               </thead>

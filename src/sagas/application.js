@@ -19,7 +19,7 @@ function* fetchApplications(action) {
 
     if (!token) {
       yield put({ type: GET_APPLICATIONS_FAILURE, error: "Redirecting..." });
-      yield put(push("/"));
+      if (!action.no_redirect) yield put(push("/"));
       return;
     }
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
@@ -36,48 +36,7 @@ function* fetchApplications(action) {
     if (result.error) {
       yield put({ type: GET_APPLICATIONS_FAILURE, error: result.error });
     } else {
-      let sortedResult = {
-        not_applied: [],
-        applied: [],
-        hidden: [],
-        interviewing: [],
-        rejected: [],
-        offer: [],
-        accepted: []
-      };
-
-      result.map(app => {
-        switch (app.stage) {
-          case "not_applied":
-            sortedResult.not_applied.push(app);
-            break;
-          case "applied":
-            sortedResult.applied.push(app);
-            break;
-          case "hidden":
-            sortedResult.hidden.push(app);
-            break;
-          case "interviewing":
-            sortedResult.interviewing.push(app);
-            break;
-          case "rejected":
-            sortedResult.rejected.push(app);
-            break;
-          case "offer":
-            sortedResult.offer.push(app);
-            break;
-          case "accepted":
-            sortedResult.accepted.push(app);
-            break;
-
-          default:
-            console.log(app);
-            sortedResult.not_applied.push(app);
-            break;
-        }
-      });
-
-      yield put({ type: GET_APPLICATIONS_SUCCESS, applications: sortedResult });
+      yield put({ type: GET_APPLICATIONS_SUCCESS, applications: result });
     }
   } catch (error) {
     yield put({ type: GET_APPLICATIONS_FAILURE, error });

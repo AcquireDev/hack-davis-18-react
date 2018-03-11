@@ -7,6 +7,8 @@ import store, { history } from "./config/store";
 import Splash from "./screens/Splash.js";
 import Login from "./screens/Login.js";
 import Dashboard from "./screens/Dashboard.js";
+import AccountSetup from "./screens/AccountSetup.js";
+import Signup from "./screens/Signup.js";
 import { Provider } from "react-redux";
 import { Route } from "react-router-dom";
 import { ConnectedRouter } from "react-router-redux";
@@ -17,10 +19,12 @@ ReactDOM.render(
       <div>
         <Route exact path="/" component={Splash} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
         <Route exact path="/dashboard" component={Dashboard} />
+        <Route exact path="/loading-account" component={AccountSetup} />
       </div>
     </ConnectedRouter>
   </Provider>,
-  document.getElementById('root'),
+  document.getElementById("root")
 );
 registerServiceWorker();

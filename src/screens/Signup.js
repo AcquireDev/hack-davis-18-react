@@ -7,9 +7,9 @@ import {
   ControlLabel,
   Label
 } from "react-bootstrap";
-import { loginUser } from "../actions/user";
+import { createUser } from "../actions/user";
 
-class Login extends Component {
+class Signup extends Component {
   constructor(props) {
     super(props);
 
@@ -31,20 +31,22 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    this.props.dispatch(loginUser(this.state.email, this.state.password));
+    this.props.dispatch(createUser(this.state.email, this.state.password));
   };
 
   render() {
     let invalidLogin = null;
-    if (this.props.user.loginError) {
+    if (this.props.user.signupError) {
       invalidLogin = (
-        <p>The username or password you have entered is invalid.</p>
+        <p style={{ textAlign: "center", color: "white", marginTop: "25px" }}>
+          {this.props.user.signupError}
+        </p>
       );
     }
 
     return (
       <div
-        className="Login"
+        className="Signup"
         style={{
           backgroundColor: "#f26866",
           height: "100vh",
@@ -90,7 +92,7 @@ class Login extends Component {
                 margin: "auto"
               }}
             >
-              Login
+              Signup
             </Button>
           </form>
           {invalidLogin}
@@ -108,4 +110,4 @@ const mapStateToProps = state => {
   };
 };
 
-export default connect(mapStateToProps)(Login);
+export default connect(mapStateToProps)(Signup);

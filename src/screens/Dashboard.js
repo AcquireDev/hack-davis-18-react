@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { DropdownButton, MenuItem, Table } from "react-bootstrap";
+import { DropdownButton, MenuItem, Table, Button } from "react-bootstrap";
 
-import { getUser } from "../actions/user";
+import { getUser, logout } from "../actions/user";
 import {
   getApplications,
   markApplied,
@@ -28,6 +28,10 @@ class Dashboard extends Component {
 
   handleChangeStage = (id, stage) => {
     this.props.dispatch(changeStage(id, stage));
+  };
+
+  handleLogout = () => {
+    this.props.dispatch(logout());
   };
 
   render() {
@@ -113,6 +117,9 @@ class Dashboard extends Component {
               alignItems: "center"
             }}
           >
+            <Button style={{ marginRight: "15px" }} onClick={this.handleLogout}>
+              Logout
+            </Button>
             <p
               align="right"
               style={{ fontWeight: "lighter", fontSize: "150%" }}

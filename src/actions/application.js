@@ -14,6 +14,11 @@ export const getApplications = () => ({
   type: GET_APPLICATIONS
 });
 
+export const getApplicationsNoRedirect = () => ({
+  type: GET_APPLICATIONS,
+  no_redirect: true
+});
+
 export const markApplied = id => ({
   type: MARK_APPLIED,
   id

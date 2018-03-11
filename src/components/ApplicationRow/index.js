@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Button, Dropdown, MenuItem } from 'react-bootstrap';
+import React, { Component } from "react";
+import { Button, Dropdown, MenuItem } from "react-bootstrap";
 
 class ApplicationRow extends Component {
   constructor(props) {
@@ -7,18 +7,23 @@ class ApplicationRow extends Component {
 
     this.state = {
       visible: true,
-      stageTitle: this.props.app.stage,
+      stageTitle: this.props.app.stage
     };
   }
 
   handleApplied = () => {
-    this.setState({ visible: false });
+    this.setState({ stageTitle: "applied" });
     this.props.apply(this.props.app.id);
   };
 
-  handleChangeStage = (event) => {
+  handleChangeStage = event => {
     this.setState({ stageTitle: event });
     this.props.setStage(this.props.app.id, event);
+  };
+
+  handleHide = () => {
+    this.setState({ stageTitle: "hidden" });
+    this.props.setStage(this.props.app.id, "hidden");
   };
 
   renderButton = () => {
@@ -29,11 +34,24 @@ class ApplicationRow extends Component {
         </Button>
       );
     }
-    return <Button onClick={this.handleApplied}>Mark as applied</Button>;
+    return (
+      <div>
+        <Button onClick={this.handleApplied}>Mark applied</Button>
+        {this.props.app.stage != "hidden" && (
+          <Button style={{ marginLeft: "10px" }} onClick={this.handleHide}>
+            Hide
+          </Button>
+        )}
+      </div>
+    );
   };
 
   renderStage = () => (
-    <Dropdown disabled={!this.props.app.applied} onSelect={this.handleChangeStage}>
+    <Dropdown
+      disabled={!this.props.app.applied}
+      onSelect={this.handleChangeStage}
+      id={"dropdown-" + this.props.app.id}
+    >
       <Dropdown.Toggle>{this.state.stageTitle}</Dropdown.Toggle>
       <Dropdown.Menu>
         <MenuItem eventKey="not_applied" disabled>
@@ -64,8 +82,8 @@ class ApplicationRow extends Component {
           </td>
           <td>{this.props.app.title}</td>
           <td>
-            {this.renderStage()}{' '}
-            {this.props.app.stage === this.state.stageTitle ? '' : 'Syncing...'}
+            {this.renderStage()}{" "}
+            {this.props.app.stage === this.state.stageTitle ? "" : "Syncing..."}
           </td>
           <td>{this.renderButton()}</td>
         </tr>

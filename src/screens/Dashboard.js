@@ -1,11 +1,16 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import { DropdownButton, MenuItem, Table } from 'react-bootstrap';
+import { DropdownButton, MenuItem, Table } from "react-bootstrap";
 
-import { getUser } from '../actions/user';
-import { getApplications, markApplied, getNewApps, changeStage } from '../actions/application';
-import ApplicationRow from '../components/ApplicationRow';
+import { getUser } from "../actions/user";
+import {
+  getApplications,
+  markApplied,
+  changeStage
+} from "../actions/application";
+import ApplicationRow from "../components/ApplicationRow";
+import ApplicationCategory from "../components/ApplicationCategory";
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -13,12 +18,11 @@ class Dashboard extends Component {
   }
 
   handleLoadApps = () => {
-    this.props.dispatch(getNewApps());
     this.props.dispatch(getApplications());
     this.props.dispatch(getUser());
   };
 
-  handleApplied = (id) => {
+  handleApplied = id => {
     this.props.dispatch(markApplied(id));
   };
 
@@ -28,24 +32,6 @@ class Dashboard extends Component {
 
   render() {
     const applications = this.props.applications;
-    const applicationList = applications.map(application => (
-      <ApplicationRow
-        key={application.id}
-        app={application}
-        apply={this.handleApplied}
-        setStage={this.handleChangeStage}
-      />
-    ));
-
-    const newApplications = this.props.newApplications;
-    const newApplicationList = newApplications.map(application => (
-      <ApplicationRow
-        key={application.id}
-        app={application}
-        apply={this.handleApplied}
-        setStage={this.handleChangeStage}
-      />
-    ));
 
     const loading = this.props.appsLoading ? <p>loading...</p> : <span />;
 
@@ -55,46 +41,65 @@ class Dashboard extends Component {
           id="wrapper"
           className="Header"
           style={{
-            backgroundColor: '#5ede5c',
-            height: '7vh',
-            color: 'white',
-            display: 'flex',
-            justifyContent: 'space-between',
+            backgroundColor: "#5ede5c",
+            height: "7vh",
+            color: "white",
+            display: "flex",
+            justifyContent: "space-between"
           }}
         >
           <div
             style={{
-              alignItems: 'center',
-              paddingLeft: '0px',
-              display: 'flex',
-              flexBasis: '1px',
+              alignItems: "center",
+              paddingLeft: "0px",
+              display: "flex",
+              flexBasis: "1px"
             }}
           >
-            <img alt="" src="logo.png" style={{ maxWidth: '18000%', objectFit: 'contain' }} />
+            <img
+              alt=""
+              src="logo.png"
+              style={{ maxWidth: "18000%", objectFit: "contain" }}
+            />
           </div>
           <div
             style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center"
             }}
           >
             <div align="center">
-              <DropdownButton bsStyle="default" key={1} title="Software Engineer" id="drop1">
+              <DropdownButton
+                bsStyle="default"
+                key={1}
+                title="Software Engineer"
+                id="drop1"
+              >
                 <MenuItem key={1} active>
                   Software Engineer
                 </MenuItem>
               </DropdownButton>
             </div>
             <div align="center">
-              <DropdownButton bsStyle="default" key={1} title="Intern" id="drop2">
+              <DropdownButton
+                bsStyle="default"
+                key={1}
+                title="Intern"
+                id="drop2"
+              >
                 <MenuItem key={1} active>
                   Intern
                 </MenuItem>
               </DropdownButton>
             </div>
             <div align="center">
-              <DropdownButton bsStyle="default" key={1} title="Bay Area, CA" id="drop3">
+              <DropdownButton
+                bsStyle="default"
+                key={1}
+                title="Bay Area, CA"
+                id="drop3"
+              >
                 <MenuItem key={1} active>
                   Bay Area, CA
                 </MenuItem>
@@ -103,76 +108,85 @@ class Dashboard extends Component {
           </div>
           <div
             style={{
-              paddingRight: '20px',
-              display: 'flex',
-              alignItems: 'center',
+              paddingRight: "20px",
+              display: "flex",
+              alignItems: "center"
             }}
           >
-            <p align="right" style={{ fontWeight: 'lighter', fontSize: '150%' }}>
+            <p
+              align="right"
+              style={{ fontWeight: "lighter", fontSize: "150%" }}
+            >
               {this.props.user.completed_apps} / {this.props.user.total_apps}
             </p>
           </div>
         </div>
-        <div style={{ margin: '2%' }}>
+        <div style={{ margin: "2%" }}>
           {loading}
 
-          <div style={{ marginLeft: '5%', marginRight: '5%' }}>
-            <h2 style={{ color: '#5ede5c' }}>
-              New Applications <small>fresh finds!</small>
-            </h2>
-            <Table
-              striped
-              bordered
-              hover
-              style={{
-                tableLayout: 'fixed',
-              }}
-            >
-              <thead>
-                <tr>
-                  <td>Company</td>
-                  <td>URL</td>
-                  <td>Position</td>
-                  <td>Status</td>
-                  <td>Applied?</td>
-                </tr>
-              </thead>
-              <tbody>{newApplicationList}</tbody>
-            </Table>
-          </div>
-          <br />
+          {/* Application Categories */}
+          <ApplicationCategory
+            title="Not Applied"
+            subtitle="It's all a numbers game!"
+            apply={this.handleApplied}
+            setStage={this.handleChangeStage}
+            applications={applications.not_applied}
+          />
 
-          <div style={{ marginLeft: '5%', marginRight: '5%' }}>
-            <h2 style={{ color: '#5ede5c' }}>
-              The Rest <small>not so fresh finds!</small>
-            </h2>
-            <Table
-              striped
-              bordered
-              hover
-              style={{
-                tableLayout: 'fixed',
-              }}
-            >
-              <thead>
-                <tr>
-                  <td>Company</td>
-                  <td>URL</td>
-                  <td>Position</td>
-                  <td>Status</td>
-                  <td>Applied?</td>
-                </tr>
-              </thead>
-              <tbody>{applicationList}</tbody>
-            </Table>
-          </div>
+          <ApplicationCategory
+            title="Applied"
+            subtitle=""
+            apply={this.handleApplied}
+            setStage={this.handleChangeStage}
+            applications={applications.applied}
+          />
+
+          <ApplicationCategory
+            title="Interviewing"
+            subtitle=""
+            apply={this.handleApplied}
+            setStage={this.handleChangeStage}
+            applications={applications.interviewing}
+          />
+
+          <ApplicationCategory
+            title="Offer"
+            subtitle=""
+            apply={this.handleApplied}
+            setStage={this.handleChangeStage}
+            applications={applications.offer}
+          />
+
+          <ApplicationCategory
+            title="Accepted"
+            subtitle=""
+            apply={this.handleApplied}
+            setStage={this.handleChangeStage}
+            applications={applications.accepted}
+          />
+
+          <ApplicationCategory
+            title="Rejected"
+            subtitle=""
+            apply={this.handleApplied}
+            setStage={this.handleChangeStage}
+            applications={applications.rejected}
+          />
+
+          <ApplicationCategory
+            title="Hidden"
+            subtitle=""
+            apply={this.handleApplied}
+            setStage={this.handleChangeStage}
+            applications={applications.hidden}
+          />
         </div>
       </div>
     );
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   const user = state.user;
   const applications = state.applications.applications;
   const newApplications = state.applications.newApplications;
@@ -181,7 +195,7 @@ const mapStateToProps = (state) => {
     user,
     applications,
     appsLoading,
-    newApplications,
+    newApplications
   };
 };
 

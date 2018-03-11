@@ -1,17 +1,15 @@
-import { call, put, select } from 'redux-saga/effects';
-import { push } from 'react-router-redux';
-import axios from 'axios';
+import { call, put, select } from "redux-saga/effects";
+import { push } from "react-router-redux";
+import axios from "axios";
 
 import {
   GET_APPLICATIONS_SUCCESS,
   GET_APPLICATIONS_FAILURE,
   MARK_APPLIED_SUCCESS,
   MARK_APPLIED_FAILURE,
-  GET_NEW_APPS_SUCCESS,
-  GET_NEW_APPS_FAILURE,
   CHANGE_STAGE_FAILURE,
-  CHANGE_STAGE_SUCCESS,
-} from '../actions/application';
+  CHANGE_STAGE_SUCCESS
+} from "../actions/application";
 
 const getToken = state => state.user.token;
 
@@ -20,55 +18,69 @@ function* fetchApplications(action) {
     const token = yield select(getToken);
 
     if (!token) {
-      yield put({ type: GET_APPLICATIONS_FAILURE, error: 'Redirecting...' });
-      yield put(push('/'));
+      yield put({ type: GET_APPLICATIONS_FAILURE, error: "Redirecting..." });
+      yield put(push("/"));
       return;
     }
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
     const response = yield axios({
-      method: 'get',
-      url: '/applications.json',
+      method: "get",
+      url: "/applications.json",
+      params: {
+        stage: true
+      }
     });
     const result = yield response.data;
 
     if (result.error) {
       yield put({ type: GET_APPLICATIONS_FAILURE, error: result.error });
     } else {
-      yield put({ type: GET_APPLICATIONS_SUCCESS, applications: result });
+      let sortedResult = {
+        not_applied: [],
+        applied: [],
+        hidden: [],
+        interviewing: [],
+        rejected: [],
+        offer: [],
+        accepted: []
+      };
+
+      result.map(app => {
+        switch (app.stage) {
+          case "not_applied":
+            sortedResult.not_applied.push(app);
+            break;
+          case "applied":
+            sortedResult.applied.push(app);
+            break;
+          case "hidden":
+            sortedResult.hidden.push(app);
+            break;
+          case "interviewing":
+            sortedResult.interviewing.push(app);
+            break;
+          case "rejected":
+            sortedResult.rejected.push(app);
+            break;
+          case "offer":
+            sortedResult.offer.push(app);
+            break;
+          case "accepted":
+            sortedResult.accepted.push(app);
+            break;
+
+          default:
+            console.log(app);
+            sortedResult.not_applied.push(app);
+            break;
+        }
+      });
+
+      yield put({ type: GET_APPLICATIONS_SUCCESS, applications: sortedResult });
     }
   } catch (error) {
     yield put({ type: GET_APPLICATIONS_FAILURE, error });
-  }
-}
-
-function* fetchNewApps(action) {
-  try {
-    const token = yield select(getToken);
-
-    if (!token) {
-      yield put({ type: GET_APPLICATIONS_FAILURE, error: 'Redirecting...' });
-      yield put(push('/'));
-      return;
-    }
-    axios.defaults.headers.common.Authorization = `Bearer ${token}`;
-
-    const response = yield axios({
-      method: 'get',
-      url: '/applications.json',
-      params: {
-        new: true,
-      },
-    });
-    const result = yield response.data;
-
-    if (result.error) {
-      yield put({ type: GET_NEW_APPS_FAILURE, error: result.error });
-    } else {
-      yield put({ type: GET_NEW_APPS_SUCCESS, applications: result });
-    }
-  } catch (error) {
-    yield put({ type: GET_NEW_APPS_FAILURE, error });
   }
 }
 
@@ -77,18 +89,18 @@ function* markApplied(action) {
     const token = yield select(getToken);
 
     if (!token) {
-      yield put({ type: MARK_APPLIED_FAILURE, error: 'Redirecting...' });
-      yield put(push('/'));
+      yield put({ type: MARK_APPLIED_FAILURE, error: "Redirecting..." });
+      yield put(push("/"));
       return;
     }
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
     const response = yield axios({
-      method: 'patch',
+      method: "patch",
       url: `/applications/${action.id}.json`,
       params: {
-        applied: true,
-      },
+        applied: true
+      }
     });
     const result = yield response.data;
 
@@ -107,18 +119,18 @@ function* changeStage(action) {
     const token = yield select(getToken);
 
     if (!token) {
-      yield put({ type: CHANGE_STAGE_FAILURE, error: 'Redirecting...' });
-      yield put(push('/'));
+      yield put({ type: CHANGE_STAGE_FAILURE, error: "Redirecting..." });
+      yield put(push("/"));
       return;
     }
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
 
     const response = yield axios({
-      method: 'patch',
+      method: "patch",
       url: `/applications/${action.id}.json`,
       params: {
-        stage: action.stage,
-      },
+        stage: action.stage
+      }
     });
     const result = yield response.data;
 
@@ -131,4 +143,4 @@ function* changeStage(action) {
     yield put({ type: CHANGE_STAGE_FAILURE, error });
   }
 }
-export { fetchApplications, markApplied, fetchNewApps, changeStage };
+export { fetchApplications, markApplied, changeStage };

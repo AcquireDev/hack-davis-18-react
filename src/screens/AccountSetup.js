@@ -17,8 +17,7 @@ class AccountSetup extends Component {
   componentDidMount() {
     this.props.dispatch(getApplicationsNoRedirect());
     this.timeoutHandle = setTimeout(() => {
-      console.log("Test");
-      this.props.dispatch(getApplicationsNoRedirect());
+      console.log("redirecting to dashboard");
       this.props.dispatch(push("/dashboard"));
     }, 3000);
   }

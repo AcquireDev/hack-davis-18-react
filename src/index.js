@@ -1,5 +1,9 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { Route, Switch } from "react-router-dom";
+import { ConnectedRouter } from "react-router-redux";
+
 import "./index.css";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
@@ -8,20 +12,21 @@ import Splash from "./screens/Splash.js";
 import Login from "./screens/Login.js";
 import Dashboard from "./screens/Dashboard.js";
 import AccountSetup from "./screens/AccountSetup.js";
+import Landing from "./screens/Landing.js";
 import Signup from "./screens/Signup.js";
-import { Provider } from "react-redux";
-import { Route } from "react-router-dom";
-import { ConnectedRouter } from "react-router-redux";
 
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
       <div>
-        <Route exact path="/" component={Splash} />
-        <Route exact path="/login" component={Login} />
-        <Route exact path="/signup" component={Signup} />
-        <Route exact path="/dashboard" component={Dashboard} />
-        <Route exact path="/loading-account" component={AccountSetup} />
+        <Switch>
+          <Route exact path="/splash" component={Splash} />
+          <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={Signup} />
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route exact path="/loading-account" component={AccountSetup} />
+          <Route component={Landing} />
+        </Switch>
       </div>
     </ConnectedRouter>
   </Provider>,

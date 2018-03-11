@@ -72,6 +72,12 @@ function* loginUser(action) {
   }
 }
 
+const setAuthToken = jwt => {
+  localStorage.setItem("jwt", jwt);
+  console.log("HERE is your JWT");
+  console.log(localStorage.getItem("jwt"));
+};
+
 function* createUser(action) {
   try {
     const response = yield axios({
@@ -90,14 +96,14 @@ function* createUser(action) {
         error: String(result.error.response.data.msg)
       });
     } else {
-      yield localStorage.setItem("jwt", result.jwt);
+      yield call(setAuthToken, result.jwt);
       yield put({ type: CREATE_USER_SUCCESS, token: result.jwt });
       yield put(push("/loading-account"));
     }
   } catch (error) {
     yield put({
       type: CREATE_USER_FAILURE,
-      error: String(error.response.data.msg)
+      error: error.response ? String(error.response.data.msg) : String(error)
     });
   }
 }
@@ -110,11 +116,8 @@ function* lookupJWT(action) {
       yield put({ type: LOOKUP_JWT_SUCCESS, jwt });
       yield put(push("/dashboard"));
     } else {
-      yield put(push("/signup"));
     }
-  } catch (error) {
-    yield put(push("/signup"));
-  }
+  } catch (error) {}
 }
 
 export { fetchUser, loginUser, lookupJWT, createUser };

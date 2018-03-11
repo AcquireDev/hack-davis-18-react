@@ -17,9 +17,9 @@ function* fetchApplications(action) {
   try {
     const token = yield select(getToken);
 
-    if (!token) {
+    if (!token && !action.no_redirect) {
       yield put({ type: GET_APPLICATIONS_FAILURE, error: "Redirecting..." });
-      if (!action.no_redirect) yield put(push("/"));
+      yield put(push("/"));
       return;
     }
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;

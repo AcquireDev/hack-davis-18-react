@@ -7,9 +7,15 @@ class ApplicationCategory extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      visible: true
-    };
+    if (props.title == "Hidden") {
+      this.state = {
+        visible: false
+      };
+    } else {
+      this.state = {
+        visible: true
+      };
+    }
   }
 
   handleHideToggle = () => {
@@ -52,10 +58,14 @@ class ApplicationCategory extends Component {
   };
 
   render() {
+    if (this.props.applications.length == 0) return <span />;
     return (
       <div style={{ marginLeft: "5%", marginRight: "5%" }}>
         <h2 style={{ color: "#5ede5c" }}>
-          {this.props.title} <small>{this.props.subtitle}</small>{" "}
+          {this.props.title} <small>{this.props.subtitle}</small>
+          {" ("}
+          {this.props.applications.length}
+          {") "}
           <Button onClick={this.handleHideToggle}>Hide/Show</Button>
         </h2>
         {this.renderApplications()}

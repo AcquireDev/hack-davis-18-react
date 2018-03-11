@@ -79,7 +79,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         signupError: "",
-        token: action.jwt
+        token: action.token
       };
     default:
       return state;

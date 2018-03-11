@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { push } from "react-router-redux";
 import {
   Button,
   FormGroup,
@@ -7,6 +8,7 @@ import {
   ControlLabel,
   Label
 } from "react-bootstrap";
+
 import { createUser } from "../actions/user";
 
 class Signup extends Component {
@@ -27,6 +29,10 @@ class Signup extends Component {
     this.setState({
       [event.target.id]: event.target.value
     });
+  };
+
+  handleLogin = () => {
+    this.props.dispatch(push("/login"));
   };
 
   handleSubmit = event => {
@@ -57,7 +63,6 @@ class Signup extends Component {
       >
         <div>
           <div align="center">
-            {" "}
             <img src="logo.png" style={{ width: "60%", height: "60%" }} />{" "}
           </div>
           <form onSubmit={this.handleSubmit}>
@@ -96,6 +101,20 @@ class Signup extends Component {
             </Button>
           </form>
           {invalidLogin}
+          <br />
+          <Button
+            block
+            bsSize="large"
+            bsStyle="warning"
+            type="submit"
+            onClick={this.handleLogin}
+            style={{
+              width: "40%",
+              margin: "auto"
+            }}
+          >
+            I already have an account.
+          </Button>
         </div>
       </div>
     );

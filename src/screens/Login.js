@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { push } from "react-router-redux";
 import {
   Button,
   FormGroup,
@@ -27,6 +28,10 @@ class Login extends Component {
     this.setState({
       [event.target.id]: event.target.value
     });
+  };
+
+  handleSignup = () => {
+    this.props.dispatch(push("/signup"));
   };
 
   handleSubmit = event => {
@@ -94,6 +99,20 @@ class Login extends Component {
             </Button>
           </form>
           {invalidLogin}
+          <br />
+          <Button
+            block
+            bsSize="large"
+            bsStyle="warning"
+            type="submit"
+            onClick={this.handleSignup}
+            style={{
+              width: "40%",
+              margin: "auto"
+            }}
+          >
+            I don't have an account.
+          </Button>
         </div>
       </div>
     );

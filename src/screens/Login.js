@@ -9,6 +9,7 @@ import {
   Label
 } from "react-bootstrap";
 import { loginUser } from "../actions/user";
+import "../css/default.css";
 
 class Login extends Component {
   constructor(props) {
@@ -48,20 +49,15 @@ class Login extends Component {
     }
 
     return (
-      <div
-        className="Login"
-        style={{
-          backgroundColor: "#f26866",
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
+      <div className="Login" className="color-wrapper">
         <div>
           <div align="center">
             {" "}
-            <img src="logo.png" style={{ width: "60%", height: "60%" }} />{" "}
+            <img
+              src="logo.png"
+              className="white-logo"
+              style={{ width: "40%", height: "40%", paddingBottom: "25px" }}
+            />
           </div>
           <form onSubmit={this.handleSubmit}>
             <FormGroup controlId="email" bsSize="large">
@@ -91,7 +87,8 @@ class Login extends Component {
               style={{
                 width: "32%",
                 color: "white",
-                backgroundColor: "#5ede5c",
+                backgroundColor: "#4ECDC4",
+                borderColor: "#4ECDC4",
                 margin: "auto"
               }}
             >

@@ -22,7 +22,7 @@ import { fetchApplications, markApplied, changeStage } from "./application";
 // Selectors go here
 
 export default function* rootSaga() {
-  axios.defaults.baseURL = "https://hack-davis-18.herokuapp.com";
+  axios.defaults.baseURL = "https://api.acquire-jobs.com";
   yield takeLatest(GET_USER, fetchUser);
   yield takeLatest(LOGIN_USER, loginUser);
   yield takeLatest(GET_APPLICATIONS, fetchApplications);

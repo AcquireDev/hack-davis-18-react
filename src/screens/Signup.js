@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 
 import { createUser } from "../actions/user";
+import "../css/default.css";
 
 class Signup extends Component {
   constructor(props) {
@@ -51,19 +52,14 @@ class Signup extends Component {
     }
 
     return (
-      <div
-        className="Signup"
-        style={{
-          backgroundColor: "#f26866",
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
+      <div className="color-wrapper">
         <div>
           <div align="center">
-            <img src="logo.png" style={{ width: "60%", height: "60%" }} />{" "}
+            <img
+              src="logo.png"
+              className="white-logo"
+              style={{ width: "40%", height: "40%", paddingBottom: "25px" }}
+            />
           </div>
           <form onSubmit={this.handleSubmit}>
             <FormGroup controlId="email" bsSize="large">
@@ -93,7 +89,8 @@ class Signup extends Component {
               style={{
                 width: "32%",
                 color: "white",
-                backgroundColor: "#5ede5c",
+                backgroundColor: "#4ECDC4",
+                borderColor: "#4ECDC4",
                 margin: "auto"
               }}
             >

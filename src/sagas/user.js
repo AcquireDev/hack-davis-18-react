@@ -65,7 +65,7 @@ function* loginUser(action) {
       // axios.defaults.headers.common.Authorization = `Bearer ${result.jwt}`;
       yield localStorage.setItem("jwt", result.jwt);
       yield put({ type: LOGIN_USER_SUCCESS, token: result.jwt });
-      yield put(push("/dashboard"));
+      yield put(push("/loading-account"));
     }
   } catch (error) {
     yield put({ type: LOGIN_USER_FAILURE, error });

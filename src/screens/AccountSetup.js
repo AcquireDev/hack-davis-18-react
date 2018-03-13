@@ -10,6 +10,7 @@ import {
 } from "react-bootstrap";
 
 import { getApplicationsNoRedirect } from "../actions/application";
+import "../css/default.css";
 
 // import {  } from "../actions/user";
 
@@ -24,18 +25,13 @@ class AccountSetup extends Component {
 
   render() {
     return (
-      <div
-        className="Login"
-        style={{
-          backgroundColor: "#f26866",
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center"
-        }}
-      >
+      <div className="light-color-wrapper">
         <div align="center">
-          <img src="logo.png" style={{ width: "60%", height: "60%" }} />
+          <img
+            src="logo.png"
+            className="white-logo"
+            style={{ width: "40%", height: "40%", paddingBottom: "25px" }}
+          />
           <h3 style={{ textAlign: "center", color: "white" }}>
             Hold tight! We're syncing all the job listings with your account :)
           </h3>

@@ -1,0 +1,39 @@
+.landing {
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: lighter;
+}
+
+.landing-header {
+  padding: 100px;
+  background-color: #1a535c;
+  color: #ffffff;
+}
+
+.landing-body {
+  background-color: #ffffff;
+  color: #595758;
+}
+
+.landing-row-container {
+  width: 100;
+  padding-left: 12%;
+  padding-right: 12%;
+  padding-bottom: 50px;
+  margin-top: 30px;
+  text-align: left;
+}
+
+.heading {
+  color: #1a535c;
+}
+
+.white-logo {
+  filter: brightness(0) invert(1);
+}
+
+a {
+  color: #4ecdc4;
+}

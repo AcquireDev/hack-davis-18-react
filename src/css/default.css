@@ -1,0 +1,48 @@
+.color-wrapper {
+  background-color: #1a535c;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: lighter;
+}
+
+.light-color-wrapper {
+  background-color: #4ecdc4;
+  color: #ffffff;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: lighter;
+}
+
+.header {
+  background-color: #1a535c;
+  height: 7vh;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+}
+
+.wrapper {
+  color: #595758;
+  background-color: #ffffff;
+}
+
+.white-logo {
+  filter: brightness(0) invert(1);
+}
+
+.loading {
+  display: absolute;
+  right: 10px;
+  text-align: center;
+  border-radius: 20px;
+  color: white;
+  background-color: #1a535c;
+  margin: 10px;
+  padding: 5px;
+  font-weight: lighter;
+}

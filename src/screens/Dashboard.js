@@ -11,6 +11,7 @@ import {
 } from "../actions/application";
 import ApplicationRow from "../components/ApplicationRow";
 import ApplicationCategory from "../components/ApplicationCategory";
+import "../css/default.css";
 
 class Dashboard extends Component {
   componentDidMount() {
@@ -37,21 +38,17 @@ class Dashboard extends Component {
   render() {
     const applications = this.props.applications;
 
-    const loading = this.props.appsLoading ? <p>loading...</p> : <span />;
+    const loading = this.props.appsLoading ? (
+      <div style={{ width: "100%", textAlign: "center" }}>
+        <p className="loading">syncing...</p>
+      </div>
+    ) : (
+      <span />
+    );
 
     return (
-      <div>
-        <div
-          id="wrapper"
-          className="Header"
-          style={{
-            backgroundColor: "#5ede5c",
-            height: "7vh",
-            color: "white",
-            display: "flex",
-            justifyContent: "space-between"
-          }}
-        >
+      <div className="wrapper">
+        <div className="header">
           <div
             style={{
               alignItems: "center",
@@ -128,9 +125,8 @@ class Dashboard extends Component {
             </p>
           </div>
         </div>
+        {loading}
         <div style={{ margin: "2%" }}>
-          {loading}
-
           {/* Application Categories */}
           <ApplicationCategory
             title="Not Applied"

@@ -18,7 +18,7 @@ import Signup from "./screens/Signup.js";
 ReactDOM.render(
   <Provider store={store}>
     <ConnectedRouter history={history}>
-      <div>
+      <div style={{ minHeight: "100vh" }}>
         <Switch>
           <Route exact path="/splash" component={Splash} />
           <Route exact path="/login" component={Login} />

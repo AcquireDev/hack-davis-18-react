@@ -16,8 +16,10 @@ import {
   CHANGE_STAGE,
   CHANGE_STAGE_SUCCESS
 } from "../actions/application";
+import { CREATE_LISTING } from "../actions/listings";
 import { fetchUser, loginUser, lookupJWT, createUser } from "./user";
 import { fetchApplications, markApplied, changeStage } from "./application";
+import { createListing } from "./listing";
 
 // Selectors go here
 
@@ -33,6 +35,7 @@ export default function* rootSaga() {
   yield takeEvery(CHANGE_STAGE_SUCCESS, fetchApplications);
   yield takeLatest(CREATE_USER, createUser);
   yield takeEvery(LOGOUT, logout);
+  yield takeEvery(CREATE_LISTING, createListing);
   // takeEvery / takeLatest calls go here
 }
 

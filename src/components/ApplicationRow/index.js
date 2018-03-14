@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, Dropdown, MenuItem } from "react-bootstrap";
+import RaisedButton from "material-ui/RaisedButton";
 
 class ApplicationRow extends Component {
   constructor(props) {
@@ -29,18 +30,20 @@ class ApplicationRow extends Component {
   renderButton = () => {
     if (this.props.app.applied) {
       return (
-        <Button onClick={this.handleApplied} disabled>
+        <RaisedButton onClick={this.handleApplied} disabled>
           Applied
-        </Button>
+        </RaisedButton>
       );
     }
     return (
       <div>
-        <Button onClick={this.handleApplied}>Mark applied</Button>
+        <RaisedButton label="Mark applied" onClick={this.handleApplied} />
         {this.props.app.stage != "hidden" && (
-          <Button style={{ marginLeft: "10px" }} onClick={this.handleHide}>
-            Hide
-          </Button>
+          <RaisedButton
+            label="Hide"
+            style={{ marginLeft: "10px" }}
+            onClick={this.handleHide}
+          />
         )}
       </div>
     );

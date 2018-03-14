@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Button, Dropdown, MenuItem, Table } from "react-bootstrap";
+import { Dropdown, MenuItem, Table } from "react-bootstrap";
+import FlatButton from "material-ui/FlatButton";
 
 import ApplicationRow from "../ApplicationRow";
 
@@ -66,7 +67,11 @@ class ApplicationCategory extends Component {
           {" ("}
           {this.props.applications.length}
           {") "}
-          <Button onClick={this.handleHideToggle}>Hide/Show</Button>
+          <FlatButton
+            style={{ color: "#4ecdc4" }}
+            label="Hide/Show"
+            onClick={this.handleHideToggle}
+          />
         </h2>
         {this.renderApplications()}
       </div>

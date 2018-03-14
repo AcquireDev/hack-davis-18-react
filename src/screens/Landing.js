@@ -1,13 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
-import {
-  Button,
-  FormGroup,
-  FormControl,
-  ControlLabel,
-  Label
-} from "react-bootstrap";
+import { FormGroup, FormControl, ControlLabel, Label } from "react-bootstrap";
+import RaisedButton from "material-ui/RaisedButton";
 
 import { loginUser, getUser, lookupJWT } from "../actions/user";
 import "../css/Landing.css";
@@ -39,17 +34,21 @@ class Landing extends Component {
           <div className="landing-body">
             <h1 className="heading">Your job search organized.</h1>
             <br />
-            <Button
-              bsSize="large"
-              bsStyle="success"
+            <RaisedButton
+              label="Signup"
               onClick={this.handleSignup}
-              style={{ marginRight: "25px" }}
-            >
-              Signup
-            </Button>
-            <Button onClick={this.handleLogin} bsStyle="primary" bsSize="large">
-              Login
-            </Button>
+              backgroundColor="#4ECDC4"
+              labelColor="#ffffff"
+              style={{ marginRight: "25px", width: "12%" }}
+            />
+            <RaisedButton
+              label="Login"
+              backgroundColor="#4ECDC4"
+              labelColor="#ffffff"
+              style={{ width: "12%" }}
+              onClick={this.handleLogin}
+            />
+
             <div className="landing-row-container">
               <div className="landing-row">
                 <h3 className="heading">What is this?</h3>

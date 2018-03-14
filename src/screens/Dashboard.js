@@ -1,7 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { DropdownButton, MenuItem, Table, Button } from "react-bootstrap";
+import { DropdownButton, MenuItem, Table } from "react-bootstrap";
+import RaisedButton from "material-ui/RaisedButton";
+import LinearProgress from "material-ui/LinearProgress";
+import Snackbar from "material-ui/Snackbar";
 
 import { getUser, logout } from "../actions/user";
 import {
@@ -9,13 +12,36 @@ import {
   markApplied,
   changeStage
 } from "../actions/application";
+import { createListing } from "../actions/listings";
 import ApplicationRow from "../components/ApplicationRow";
 import ApplicationCategory from "../components/ApplicationCategory";
+import ManualAdd from "../components/ManualAdd";
 import "../css/default.css";
 
 class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      open: false,
+      snackMessage: ""
+    };
+  }
+
   componentDidMount() {
     this.handleLoadApps();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (
+      this.props.addedListingId != nextProps.addedListingId &&
+      nextProps.addedListingId != ""
+    ) {
+      this.setState({
+        open: true,
+        snackMessage: "Listing added!"
+      });
+    }
   }
 
   handleLoadApps = () => {
@@ -35,13 +61,16 @@ class Dashboard extends Component {
     this.props.dispatch(logout());
   };
 
+  handleCreateListing = (companyName, url, positionName) => {
+    this.setState({ snackMessage: "Adding listing...", open: true });
+    this.props.dispatch(createListing(companyName, url, positionName));
+  };
+
   render() {
     const applications = this.props.applications;
 
     const loading = this.props.appsLoading ? (
-      <div style={{ width: "100%", textAlign: "center" }}>
-        <p className="loading">syncing...</p>
-      </div>
+      <LinearProgress mode="indeterminate" style={{ height: "5px" }} />
     ) : (
       <span />
     );
@@ -60,52 +89,12 @@ class Dashboard extends Component {
             <img
               alt=""
               src="logo.png"
-              style={{ maxWidth: "18000%", objectFit: "contain" }}
+              className="white-logo"
+              style={{
+                maxWidth: "18000%",
+                objectFit: "contain"
+              }}
             />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center"
-            }}
-          >
-            <div align="center">
-              <DropdownButton
-                bsStyle="default"
-                key={1}
-                title="Software Engineer"
-                id="drop1"
-              >
-                <MenuItem key={1} active>
-                  Software Engineer
-                </MenuItem>
-              </DropdownButton>
-            </div>
-            <div align="center">
-              <DropdownButton
-                bsStyle="default"
-                key={1}
-                title="Intern"
-                id="drop2"
-              >
-                <MenuItem key={1} active>
-                  Intern
-                </MenuItem>
-              </DropdownButton>
-            </div>
-            <div align="center">
-              <DropdownButton
-                bsStyle="default"
-                key={1}
-                title="Bay Area, CA"
-                id="drop3"
-              >
-                <MenuItem key={1} active>
-                  Bay Area, CA
-                </MenuItem>
-              </DropdownButton>
-            </div>
           </div>
           <div
             style={{
@@ -114,15 +103,17 @@ class Dashboard extends Component {
               alignItems: "center"
             }}
           >
-            <Button style={{ marginRight: "15px" }} onClick={this.handleLogout}>
-              Logout
-            </Button>
             <p
               align="right"
               style={{ fontWeight: "lighter", fontSize: "150%" }}
             >
               {this.props.user.completed_apps} / {this.props.user.total_apps}
             </p>
+            <RaisedButton
+              label="Logout"
+              style={{ marginRight: "15px", marginLeft: "15px" }}
+              onClick={this.handleLogout}
+            />
           </div>
         </div>
         {loading}
@@ -184,6 +175,15 @@ class Dashboard extends Component {
             applications={applications.hidden}
           />
         </div>
+        <ManualAdd addListing={this.handleCreateListing} />
+        <Snackbar
+          open={this.state.open}
+          message={this.state.snackMessage}
+          autoHideDuration={4000}
+          onRequestClose={() => {
+            this.setState({ open: false });
+          }}
+        />
       </div>
     );
   }
@@ -194,11 +194,13 @@ const mapStateToProps = state => {
   const applications = state.applications.applications;
   const newApplications = state.applications.newApplications;
   const appsLoading = state.applications.loadingApps;
+  const addedListingId = state.listing.last_added_id;
   return {
     user,
     applications,
     appsLoading,
-    newApplications
+    newApplications,
+    addedListingId
   };
 };
 

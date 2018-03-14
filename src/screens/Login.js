@@ -52,7 +52,6 @@ class Login extends Component {
       <div className="Login" className="color-wrapper">
         <div>
           <div align="center">
-            {" "}
             <img
               src="logo.png"
               className="white-logo"

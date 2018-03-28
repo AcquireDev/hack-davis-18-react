@@ -10,6 +10,7 @@ import {
 } from "../actions/listings";
 
 const getToken = state => state.user.token;
+const getJobBoardId = state => state.user.job_board_id;
 
 function* createListing(action) {
   try {
@@ -28,7 +29,8 @@ function* createListing(action) {
       params: {
         company_name: action.companyName,
         url: action.url,
-        job_title: action.positionName
+        job_title: action.positionName,
+        job_board_id: action.boardId
       }
     });
     const result = yield response.data;
@@ -36,7 +38,9 @@ function* createListing(action) {
     if (result.error) {
       yield put({ type: CREATE_LISTING_FAILURE, error: result.error });
     } else {
-      yield put(getApplications());
+      const boardID = yield select(getJobBoardId);
+
+      yield put(getApplications(boardID));
       yield put({ type: CREATE_LISTING_SUCCESS, result: result.id });
     }
   } catch (error) {

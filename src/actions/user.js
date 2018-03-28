@@ -13,6 +13,10 @@ export const GET_USER_FAILURE = "GET_USER_FAILURE";
 export const LOOKUP_JWT = "LOOKUP_JWT";
 export const LOOKUP_JWT_SUCCESS = "LOOKUP_JWT_SUCCESS";
 
+export const SET_BOARD_ID = "SET_BOARD_ID";
+export const SET_BOARD_ID_SUCCESS = "SET_BOARD_ID_SUCCESS";
+export const SET_BOARD_ID_FAILURE = "SET_BOARD_ID_FAILURE";
+
 export const LOGOUT = "LOGOUT";
 
 export const getUser = () => ({
@@ -33,6 +37,11 @@ export const createUser = (email, password) => ({
   type: CREATE_USER,
   email,
   password
+});
+
+export const setBoardId = boardId => ({
+  type: SET_BOARD_ID,
+  boardId
 });
 
 export const lookupJWT = () => ({

@@ -8,13 +8,16 @@ import {
   LOOKUP_JWT_SUCCESS,
   CREATE_USER,
   CREATE_USER_FAILURE,
-  CREATE_USER_SUCCESS
+  CREATE_USER_SUCCESS,
+  LOGOUT,
+  SET_BOARD_ID_SUCCESS
 } from "../actions/user";
 
 const initialState = {
   email: "",
   id: "",
   token: "",
+  job_board_id: null,
   total_apps: 0,
   completed_apps: 0,
   loading: false,
@@ -30,6 +33,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         loading: true
       };
+    case SET_BOARD_ID_SUCCESS:
     case GET_USER_SUCCESS:
       return {
         ...state,
@@ -37,6 +41,7 @@ const reducer = (state = initialState, action) => {
         email: action.email,
         total_apps: action.total_apps,
         completed_apps: action.completed_apps,
+        job_board_id: action.job_board_id,
         id: action.id
       };
     case GET_USER_FAILURE:
@@ -81,6 +86,8 @@ const reducer = (state = initialState, action) => {
         signupError: "",
         token: action.token
       };
+    case LOGOUT:
+      return initialState;
     default:
       return state;
   }

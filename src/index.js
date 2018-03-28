@@ -12,7 +12,6 @@ import store, { history } from "./config/store";
 import Splash from "./screens/Splash.js";
 import Login from "./screens/Login.js";
 import Dashboard from "./screens/Dashboard.js";
-import AccountSetup from "./screens/AccountSetup.js";
 import Landing from "./screens/Landing.js";
 import Signup from "./screens/Signup.js";
 
@@ -26,7 +25,6 @@ ReactDOM.render(
             <Route exact path="/login" component={Login} />
             <Route exact path="/signup" component={Signup} />
             <Route exact path="/dashboard" component={Dashboard} />
-            <Route exact path="/loading-account" component={AccountSetup} />
             <Route component={Landing} />
           </Switch>
         </ThemeProvider>

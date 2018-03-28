@@ -11,6 +11,8 @@ import {
   CHANGE_STAGE_SUCCESS
 } from "../actions/application";
 
+import { lookupJWT } from "../actions/user";
+
 const getToken = state => state.user.token;
 
 function* fetchApplications(action) {
@@ -28,7 +30,8 @@ function* fetchApplications(action) {
       method: "get",
       url: "/applications.json",
       params: {
-        stage: true
+        stage: true,
+        job_board_id: action.jobBoardId
       }
     });
     const result = yield response.data;

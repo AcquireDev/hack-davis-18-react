@@ -7,9 +7,12 @@ import {
   MARK_APPLIED_FAILURE
 } from "../actions/application";
 
+import { LOGOUT } from "../actions/user";
+
 const initialState = {
   loadingApps: false,
   loadingNewApps: false,
+  initialLoaded: false,
   error: {},
   applications: {
     not_applied: [],
@@ -33,14 +36,18 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         loadingApps: false,
+        initialLoaded: true,
         applications: action.applications
       };
     case GET_APPLICATIONS_FAILURE:
       return {
         ...state,
         loadingApps: false,
+        initialLoaded: true,
         error: action.error
       };
+    case LOGOUT:
+      return initialState;
     default:
       return state;
   }

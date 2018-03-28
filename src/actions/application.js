@@ -10,8 +10,9 @@ export const CHANGE_STAGE = "CHANGE_STAGE";
 export const CHANGE_STAGE_SUCCESS = "CHANGE_STAGE_SUCCESS";
 export const CHANGE_STAGE_FAILURE = "CHANGE_STAGE_FAILURE";
 
-export const getApplications = () => ({
-  type: GET_APPLICATIONS
+export const getApplications = jobBoardId => ({
+  type: GET_APPLICATIONS,
+  jobBoardId
 });
 
 export const getApplicationsNoRedirect = () => ({

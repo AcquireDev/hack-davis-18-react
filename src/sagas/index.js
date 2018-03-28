@@ -1,4 +1,4 @@
-import { takeEvery, takeLatest, put, select } from "redux-saga/effects";
+import { takeEvery, takeLatest, put } from "redux-saga/effects";
 import { push } from "react-router-redux";
 import axios from "axios";
 

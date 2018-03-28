@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { Button, Dropdown, MenuItem } from "react-bootstrap";
+import { Dropdown, MenuItem } from "react-bootstrap";
 import RaisedButton from "material-ui/RaisedButton";
+import ReactGA from "react-ga";
 
 class ApplicationRow extends Component {
   constructor(props) {
@@ -13,16 +14,28 @@ class ApplicationRow extends Component {
   }
 
   handleApplied = () => {
+    ReactGA.event({
+      category: "Application",
+      action: "Mark Applied"
+    });
     this.setState({ stageTitle: "applied" });
     this.props.apply(this.props.app.id);
   };
 
   handleChangeStage = event => {
+    ReactGA.event({
+      category: "Application",
+      action: "Change Stage"
+    });
     this.setState({ stageTitle: event });
     this.props.setStage(this.props.app.id, event);
   };
 
   handleHide = () => {
+    ReactGA.event({
+      category: "Application",
+      action: "Hide Listing"
+    });
     this.setState({ stageTitle: "hidden" });
     this.props.setStage(this.props.app.id, "hidden");
   };
@@ -36,9 +49,13 @@ class ApplicationRow extends Component {
       );
     }
     return (
-      <div>
-        <RaisedButton label="Mark applied" onClick={this.handleApplied} />
-        {this.props.app.stage != "hidden" && (
+      <div style={{ textAlign: "center" }}>
+        <RaisedButton
+          style={{ marginBottom: "10px" }}
+          label="Mark applied"
+          onClick={this.handleApplied}
+        />
+        {this.props.app.stage !== "hidden" && (
           <RaisedButton
             label="Hide"
             style={{ marginLeft: "10px" }}
@@ -79,9 +96,16 @@ class ApplicationRow extends Component {
             <strong>{this.props.app.company}</strong>
           </td>
           <td>
-            <a target="_blank" href={this.props.app.url}>
+            <ReactGA.OutboundLink
+              eventLabel={`View Job Posting - ${this.props.app.url}`}
+              to={this.props.app.url}
+              target="_blank"
+            >
               View Job Posting
-            </a>
+            </ReactGA.OutboundLink>
+            {/* <a target="_blank" href={this.props.app.url}>
+              View Job Posting
+            </a> */}
           </td>
           <td>{this.props.app.title}</td>
           <td>

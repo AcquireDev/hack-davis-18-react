@@ -1,10 +1,7 @@
 import {
   GET_APPLICATIONS,
   GET_APPLICATIONS_SUCCESS,
-  GET_APPLICATIONS_FAILURE,
-  MARK_APPLIED,
-  MARK_APPLIED_SUCCESS,
-  MARK_APPLIED_FAILURE
+  GET_APPLICATIONS_FAILURE
 } from "../actions/application";
 
 import { LOGOUT } from "../actions/user";

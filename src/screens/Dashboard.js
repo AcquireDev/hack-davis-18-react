@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { DropdownButton, MenuItem, Table } from "react-bootstrap";
+import { DropdownButton, MenuItem } from "react-bootstrap";
 import RaisedButton from "material-ui/RaisedButton";
 import LinearProgress from "material-ui/LinearProgress";
 import Snackbar from "material-ui/Snackbar";
+import ReactGA from "react-ga";
 
 import { getUser, logout, setBoardId } from "../actions/user";
 import {
@@ -14,7 +15,6 @@ import {
 } from "../actions/application";
 import { fetchJobBoards } from "../actions/job_boards";
 import { createListing } from "../actions/listings";
-import ApplicationRow from "../components/ApplicationRow";
 import ApplicationCategory from "../components/ApplicationCategory";
 import ManualAdd from "../components/ManualAdd";
 import "../css/default.css";
@@ -31,14 +31,16 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    ReactGA.initialize("UA-116571532-1");
+    ReactGA.pageview("/dashboard", "Dashboard");
     this.props.dispatch(getUser());
     this.props.dispatch(fetchJobBoards());
   }
 
   componentWillReceiveProps(nextProps) {
     if (
-      this.props.addedListingId != nextProps.addedListingId &&
-      nextProps.addedListingId != ""
+      this.props.addedListingId !== nextProps.addedListingId &&
+      nextProps.addedListingId !== ""
     ) {
       this.setState({
         open: true,
@@ -47,8 +49,8 @@ class Dashboard extends Component {
     }
 
     if (
-      nextProps.user.job_board_id != null &&
-      nextProps.user.job_board_id != this.state.boardId
+      nextProps.user.job_board_id !== null &&
+      nextProps.user.job_board_id !== this.state.boardId
     ) {
       this.setState({ boardId: nextProps.user.job_board_id });
       this.props.dispatch(getApplications(nextProps.user.job_board_id));
@@ -92,6 +94,7 @@ class Dashboard extends Component {
             src="logo.png"
             className="white-logo"
             style={{ width: "40%", height: "40%", paddingBottom: "25px" }}
+            alt="Acquire"
           />
           <h3 style={{ textAlign: "center", color: "white" }}>
             Hold tight! We're syncing all the job listings with your account :)

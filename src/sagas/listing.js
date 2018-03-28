@@ -1,4 +1,4 @@
-import { call, put, select } from "redux-saga/effects";
+import { put, select } from "redux-saga/effects";
 import { push } from "react-router-redux";
 import axios from "axios";
 

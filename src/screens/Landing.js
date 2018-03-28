@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
-import { FormGroup, FormControl, ControlLabel, Label } from "react-bootstrap";
 import RaisedButton from "material-ui/RaisedButton";
+import ReactGA from "react-ga";
 
-import { loginUser, getUser, lookupJWT } from "../actions/user";
+import { lookupJWT } from "../actions/user";
 import "../css/Landing.css";
 
 class Landing extends Component {
   componentDidMount() {
+    ReactGA.initialize("UA-116571532-1");
+    ReactGA.pageview("/landing", "Landing");
     this.props.dispatch(lookupJWT());
   }
 
@@ -29,6 +31,7 @@ class Landing extends Component {
               src="logo.png"
               className="white-logo"
               style={{ width: "60%", height: "60%" }}
+              alt="Acquire Jobs"
             />
           </div>
           <div className="landing-body">
@@ -78,19 +81,19 @@ class Landing extends Component {
                   Imagine you didn't have to find the jobs that you put in your
                   spreadsheet... that would be nice! We have all the features
                   you could need including:
-                  <ul>
-                    <li>
-                      Organizing into categories (applied/need to
-                      apply/interviewing/rejected/etc...)
-                    </li>
-                    <li>
-                      Search <small>(coming soon)</small>
-                    </li>
-                    <li>
-                      Adding notes <small>(coming soon)</small>
-                    </li>
-                  </ul>
                 </p>
+                <ul>
+                  <li>
+                    Organizing into categories (applied/need to
+                    apply/interviewing/rejected/etc...)
+                  </li>
+                  <li>
+                    Search <small>(coming soon)</small>
+                  </li>
+                  <li>
+                    Adding notes <small>(coming soon)</small>
+                  </li>
+                </ul>
               </div>
               <div className="landing-row">
                 <h3 className="heading">What if my job isn't on the list?</h3>

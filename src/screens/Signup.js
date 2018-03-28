@@ -1,13 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { push } from "react-router-redux";
-import {
-  Button,
-  FormGroup,
-  FormControl,
-  ControlLabel,
-  Label
-} from "react-bootstrap";
+import { Button, FormGroup, FormControl } from "react-bootstrap";
+import ReactGA from "react-ga";
 
 import { createUser } from "../actions/user";
 import "../css/default.css";
@@ -20,6 +15,11 @@ class Signup extends Component {
       email: "",
       password: ""
     };
+  }
+
+  componentDidMount() {
+    ReactGA.initialize("UA-116571532-1");
+    ReactGA.pageview("/signup", "Signup");
   }
 
   validateForm() {
@@ -59,6 +59,7 @@ class Signup extends Component {
               src="logo.png"
               className="white-logo"
               style={{ width: "40%", height: "40%", paddingBottom: "25px" }}
+              alt="Acquire"
             />
           </div>
           <form onSubmit={this.handleSubmit}>

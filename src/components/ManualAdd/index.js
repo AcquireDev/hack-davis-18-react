@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { Button, Dropdown, MenuItem } from "react-bootstrap";
 import PropTypes from "prop-types";
 import FloatingActionButton from "material-ui/FloatingActionButton";
 import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
-import { RadioButton, RadioButtonGroup } from "material-ui/RadioButton";
 import TextField from "material-ui/TextField";
 import ContentAdd from "material-ui/svg-icons/content/add";
+import ReactGA from "react-ga";
 
 import "./style.css";
 
@@ -25,6 +24,7 @@ class ManualAdd extends Component {
   }
 
   handleOpen = () => {
+    ReactGA.modalview("Create Listing");
     this.setState({ active: true });
   };
 
@@ -45,6 +45,11 @@ class ManualAdd extends Component {
   };
 
   handleSubmit = () => {
+    ReactGA.event({
+      category: "Listing",
+      action: "Create New"
+    });
+
     this.props.addListing(
       this.state.companyName,
       this.state.url,

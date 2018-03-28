@@ -23,7 +23,7 @@ const reducer = (state = initialState, action) => {
         fetching: false,
         job_boards: action.results
       };
-    case FETCH_JOB_BOARDS:
+    case FETCH_JOB_BOARDS_FAILURE:
       return {
         ...state,
         fetching: false,

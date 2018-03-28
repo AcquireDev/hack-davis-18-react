@@ -1,4 +1,4 @@
-import { call, put, select } from "redux-saga/effects";
+import { put, select } from "redux-saga/effects";
 import { push } from "react-router-redux";
 import axios from "axios";
 
@@ -6,8 +6,6 @@ import {
   FETCH_JOB_BOARDS_FAILURE,
   FETCH_JOB_BOARDS_SUCCESS
 } from "../actions/job_boards";
-
-import { lookupJWT } from "../actions/user";
 
 const getToken = state => state.user.token;
 

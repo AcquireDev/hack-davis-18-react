@@ -10,11 +10,11 @@ class ApplicationCategory extends Component {
 
     if (props.title === "Hidden") {
       this.state = {
-        visible: false
+        visible: false,
       };
     } else {
       this.state = {
-        visible: true
+        visible: true,
       };
     }
   }
@@ -41,7 +41,7 @@ class ApplicationCategory extends Component {
         bordered
         hover
         style={{
-          tableLayout: "fixed"
+          tableLayout: "fixed",
         }}
       >
         <thead>

@@ -7,6 +7,7 @@ import ThemeProvider from "material-ui/styles/MuiThemeProvider";
 
 import "./index.css";
 import registerServiceWorker from "./registerServiceWorker";
+import { unregister } from "./registerServiceWorker";
 import store, { history } from "./config/store";
 import Login from "./screens/Login.js";
 import Dashboard from "./screens/Dashboard.js";
@@ -28,6 +29,7 @@ ReactDOM.render(
       </div>
     </ConnectedRouter>
   </Provider>,
-  document.getElementById("root")
+  document.getElementById("root"),
 );
-registerServiceWorker();
+// registerServiceWorker();
+unregister();

@@ -91,7 +91,7 @@ class Landing extends Component {
                     Search <small>(coming soon)</small>
                   </li>
                   <li>
-                    Adding notes <small>(coming soon)</small>
+                    Adding notes <small>(coming sooner)</small>
                   </li>
                 </ul>
               </div>
@@ -111,11 +111,11 @@ class Landing extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const user = state.user;
 
   return {
-    user
+    user,
   };
 };
 

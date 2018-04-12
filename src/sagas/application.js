@@ -8,14 +8,17 @@ import {
   MARK_APPLIED_SUCCESS,
   MARK_APPLIED_FAILURE,
   CHANGE_STAGE_FAILURE,
-  CHANGE_STAGE_SUCCESS
+  CHANGE_STAGE_SUCCESS,
 } from "../actions/application";
 
 const getToken = state => state.user.token;
+const getBoardID = state => state.user.job_board_id;
 
 function* fetchApplications(action) {
   try {
     const token = yield select(getToken);
+    let boardId = yield action.jobBoardId;
+    if (!boardId) boardId = yield select(getBoardID);
 
     if (!token && !action.no_redirect) {
       yield put({ type: GET_APPLICATIONS_FAILURE, error: "Redirecting..." });
@@ -29,8 +32,8 @@ function* fetchApplications(action) {
       url: "/applications.json",
       params: {
         stage: true,
-        job_board_id: action.jobBoardId
-      }
+        job_board_id: boardId,
+      },
     });
     const result = yield response.data;
 
@@ -59,8 +62,8 @@ function* markApplied(action) {
       method: "patch",
       url: `/applications/${action.id}.json`,
       params: {
-        applied: true
-      }
+        applied: true,
+      },
     });
     const result = yield response.data;
 
@@ -89,8 +92,8 @@ function* changeStage(action) {
       method: "patch",
       url: `/applications/${action.id}.json`,
       params: {
-        stage: action.stage
-      }
+        stage: action.stage,
+      },
     });
     const result = yield response.data;
 

@@ -11,7 +11,7 @@ import { getUser, logout, setBoardId } from "../actions/user";
 import {
   getApplications,
   markApplied,
-  changeStage
+  changeStage,
 } from "../actions/application";
 import { fetchJobBoards } from "../actions/job_boards";
 import { createListing } from "../actions/listings";
@@ -26,7 +26,7 @@ class Dashboard extends Component {
     this.state = {
       open: false,
       snackMessage: "",
-      boardId: null
+      boardId: null,
     };
   }
 
@@ -44,7 +44,7 @@ class Dashboard extends Component {
     ) {
       this.setState({
         open: true,
-        snackMessage: "Listing added!"
+        snackMessage: "Listing added!",
       });
     }
 
@@ -57,12 +57,12 @@ class Dashboard extends Component {
     }
   }
 
-  handleLoadApps = boardId => {
-    this.setState({ boardId: boardId });
+  handleLoadApps = (boardId) => {
+    this.setState({ boardId });
     this.props.dispatch(getApplications(boardId));
   };
 
-  handleApplied = id => {
+  handleApplied = (id) => {
     this.props.dispatch(markApplied(id));
   };
 
@@ -74,39 +74,33 @@ class Dashboard extends Component {
     this.props.dispatch(logout());
   };
 
-  handleJobBoardSelect = id => {
+  handleJobBoardSelect = (id) => {
     this.handleLoadApps(id);
     this.props.dispatch(setBoardId(id));
   };
 
   handleCreateListing = (companyName, url, positionName) => {
     this.setState({ snackMessage: "Adding listing...", open: true });
-    this.props.dispatch(
-      createListing(companyName, url, positionName, this.state.boardId)
-    );
+    this.props.dispatch(createListing(companyName, url, positionName, this.state.boardId),);
   };
 
-  renderInitialLoading = () => {
-    return (
-      <div className="light-color-wrapper">
-        <div align="center">
-          <img
-            src="logo.png"
-            className="white-logo"
-            style={{ width: "40%", height: "40%", paddingBottom: "25px" }}
-            alt="Acquire"
-          />
-          <h3 style={{ textAlign: "center", color: "white" }}>
-            Hold tight! We're syncing all the job listings with your account :)
-          </h3>
-        </div>
+  renderInitialLoading = () => (
+    <div className="light-color-wrapper">
+      <div align="center">
+        <img
+          src="logo.png"
+          className="white-logo"
+          style={{ width: "40%", height: "40%", paddingBottom: "25px" }}
+          alt="Acquire"
+        />
+        <h3 style={{ textAlign: "center", color: "white" }}>
+          Hold tight! We're syncing all the job listings with your account :)
+        </h3>
       </div>
-    );
-  };
+    </div>
+  );
   render() {
-    let currentJobBoard = this.props.jobBoards.find(
-      board => board.id == this.state.boardId
-    );
+    const currentJobBoard = this.props.jobBoards.find(board => board.id == this.state.boardId,);
     const applications = this.props.applications;
     const loading = this.props.appsLoading ? (
       <LinearProgress mode="indeterminate" style={{ height: "5px" }} />
@@ -122,7 +116,7 @@ class Dashboard extends Component {
                 alignItems: "center",
                 paddingLeft: "0px",
                 display: "flex",
-                flexBasis: "1px"
+                flexBasis: "1px",
               }}
             >
               <img
@@ -131,7 +125,7 @@ class Dashboard extends Component {
                 className="white-logo"
                 style={{
                   maxWidth: "18000%",
-                  objectFit: "contain"
+                  objectFit: "contain",
                 }}
               />
             </div>
@@ -139,7 +133,7 @@ class Dashboard extends Component {
               style={{
                 paddingRight: "20px",
                 display: "flex",
-                alignItems: "center"
+                alignItems: "center",
               }}
             >
               <p
@@ -244,13 +238,12 @@ class Dashboard extends Component {
           />
         </div>
       );
-    } else {
-      return this.renderInitialLoading();
     }
+    return this.renderInitialLoading();
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   const user = state.user;
   const initialLoaded = state.applications.initialLoaded;
   const applications = state.applications.applications;
@@ -265,7 +258,7 @@ const mapStateToProps = state => {
     newApplications,
     addedListingId,
     initialLoaded,
-    jobBoards
+    jobBoards,
   };
 };
 

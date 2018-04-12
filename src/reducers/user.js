@@ -10,7 +10,7 @@ import {
   CREATE_USER_FAILURE,
   CREATE_USER_SUCCESS,
   LOGOUT,
-  SET_BOARD_ID_SUCCESS
+  SET_BOARD_ID_SUCCESS,
 } from "../actions/user";
 
 const initialState = {
@@ -23,7 +23,7 @@ const initialState = {
   loading: false,
   validated: false,
   loginError: false,
-  signupError: ""
+  signupError: "",
 };
 
 const reducer = (state = initialState, action) => {
@@ -31,7 +31,7 @@ const reducer = (state = initialState, action) => {
     case GET_USER:
       return {
         ...state,
-        loading: true
+        loading: true,
       };
     case SET_BOARD_ID_SUCCESS:
     case GET_USER_SUCCESS:
@@ -42,49 +42,49 @@ const reducer = (state = initialState, action) => {
         total_apps: action.total_apps,
         completed_apps: action.completed_apps,
         job_board_id: action.job_board_id,
-        id: action.id
+        id: action.id,
       };
     case GET_USER_FAILURE:
       return {
         ...state,
-        loading: false
+        loading: false,
       };
     case LOGIN_USER:
       return {
         ...state,
-        loginError: false
+        loginError: false,
       };
     case LOGIN_USER_SUCCESS:
       return {
         ...state,
         validated: true,
-        token: action.token
+        token: action.token,
       };
     case LOGIN_USER_FAILURE:
       return {
         ...state,
-        loginError: true
+        loginError: true,
       };
     case LOOKUP_JWT_SUCCESS:
       return {
         ...state,
-        token: action.jwt
+        token: action.jwt,
       };
     case CREATE_USER:
       return {
         ...state,
-        signupError: ""
+        signupError: "",
       };
     case CREATE_USER_FAILURE:
       return {
         ...state,
-        signupError: action.error
+        signupError: action.error,
       };
     case CREATE_USER_SUCCESS:
       return {
         ...state,
         signupError: "",
-        token: action.token
+        token: action.token,
       };
     case LOGOUT:
       return initialState;

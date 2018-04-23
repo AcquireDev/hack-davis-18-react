@@ -14,7 +14,7 @@ import {
   changeStage,
 } from "../actions/application";
 import { fetchJobBoards } from "../actions/job_boards";
-import { createListing } from "../actions/listings";
+import { createListing, markListingClosed } from "../actions/listings";
 import ApplicationCategory from "../components/ApplicationCategory";
 import ManualAdd from "../components/ManualAdd";
 import "../css/default.css";
@@ -77,6 +77,10 @@ class Dashboard extends Component {
   handleJobBoardSelect = (id) => {
     this.handleLoadApps(id);
     this.props.dispatch(setBoardId(id));
+  };
+
+  handleMarkClosed = (id) => {
+    this.props.dispatch(markListingClosed(id));
   };
 
   handleCreateListing = (companyName, url, positionName) => {
@@ -177,6 +181,7 @@ class Dashboard extends Component {
               apply={this.handleApplied}
               setStage={this.handleChangeStage}
               applications={applications.not_applied}
+              markClosed={this.handleMarkClosed}
             />
 
             <ApplicationCategory
@@ -185,6 +190,7 @@ class Dashboard extends Component {
               apply={this.handleApplied}
               setStage={this.handleChangeStage}
               applications={applications.applied}
+              markClosed={this.handleMarkClosed}
             />
 
             <ApplicationCategory
@@ -193,6 +199,7 @@ class Dashboard extends Component {
               apply={this.handleApplied}
               setStage={this.handleChangeStage}
               applications={applications.interviewing}
+              markClosed={this.handleMarkClosed}
             />
 
             <ApplicationCategory
@@ -201,6 +208,7 @@ class Dashboard extends Component {
               apply={this.handleApplied}
               setStage={this.handleChangeStage}
               applications={applications.offer}
+              markClosed={this.handleMarkClosed}
             />
 
             <ApplicationCategory
@@ -209,6 +217,7 @@ class Dashboard extends Component {
               apply={this.handleApplied}
               setStage={this.handleChangeStage}
               applications={applications.accepted}
+              markClosed={this.handleMarkClosed}
             />
 
             <ApplicationCategory
@@ -217,6 +226,7 @@ class Dashboard extends Component {
               apply={this.handleApplied}
               setStage={this.handleChangeStage}
               applications={applications.rejected}
+              markClosed={this.handleMarkClosed}
             />
 
             <ApplicationCategory
@@ -225,6 +235,7 @@ class Dashboard extends Component {
               apply={this.handleApplied}
               setStage={this.handleChangeStage}
               applications={applications.hidden}
+              markClosed={this.handleMarkClosed}
             />
           </div>
           <ManualAdd addListing={this.handleCreateListing} />

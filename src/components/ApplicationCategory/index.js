@@ -32,6 +32,7 @@ class ApplicationCategory extends Component {
         app={application}
         apply={this.props.apply}
         setStage={this.props.setStage}
+        markClosed={this.props.markClosed}
       />
     ));
 
@@ -46,9 +47,9 @@ class ApplicationCategory extends Component {
       >
         <thead>
           <tr>
-            <td>Company</td>
-            <td>URL</td>
             <td>Position</td>
+            <td>URL</td>
+            <td style={{ width: "8.5em" }}>Flag As Closed</td>
             <td>Status</td>
             <td>&nbsp;</td>
           </tr>

@@ -8,26 +8,26 @@ import {
   LOOKUP_JWT,
   CREATE_USER,
   LOGOUT,
-  SET_BOARD_ID
+  SET_BOARD_ID,
 } from "../actions/user";
 import {
   GET_APPLICATIONS,
   MARK_APPLIED_SUCCESS,
   MARK_APPLIED,
   CHANGE_STAGE,
-  CHANGE_STAGE_SUCCESS
+  CHANGE_STAGE_SUCCESS,
 } from "../actions/application";
 import { FETCH_JOB_BOARDS } from "../actions/job_boards";
-import { CREATE_LISTING } from "../actions/listings";
+import { CREATE_LISTING, MARK_LISTING_CLOSED } from "../actions/listings";
 import {
   fetchUser,
   loginUser,
   lookupJWT,
   createUser,
-  setBoardId
+  setBoardId,
 } from "./user";
 import { fetchApplications, markApplied, changeStage } from "./application";
-import { createListing } from "./listing";
+import { createListing, markListingClosed } from "./listing";
 import { fetchJobBoards } from "./job_board";
 
 // Selectors go here
@@ -47,6 +47,7 @@ export default function* rootSaga() {
   yield takeEvery(CREATE_LISTING, createListing);
   yield takeLatest(FETCH_JOB_BOARDS, fetchJobBoards);
   yield takeLatest(SET_BOARD_ID, setBoardId);
+  yield takeEvery(MARK_LISTING_CLOSED, markListingClosed);
   // takeEvery / takeLatest calls go here
 }
 

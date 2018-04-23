@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import { Dropdown, MenuItem } from "react-bootstrap";
 import RaisedButton from "material-ui/RaisedButton";
 import ReactGA from "react-ga";
+import { FlatButton } from "material-ui";
+import Flag from "material-ui/svg-icons/content/flag";
+import ConfirmButton from "material-ui-confirm-button";
 
 class ApplicationRow extends Component {
   constructor(props) {
@@ -9,32 +12,38 @@ class ApplicationRow extends Component {
 
     this.state = {
       visible: true,
-      stageTitle: this.props.app.stage
+      stageTitle: this.props.app.stage,
     };
   }
 
   handleApplied = () => {
     ReactGA.event({
       category: "Application",
-      action: "Mark Applied"
+      action: "Mark Applied",
     });
     this.setState({ stageTitle: "applied" });
     this.props.apply(this.props.app.id);
   };
 
-  handleChangeStage = event => {
+  handleChangeStage = (event) => {
     ReactGA.event({
       category: "Application",
-      action: "Change Stage"
+      action: "Change Stage",
     });
     this.setState({ stageTitle: event });
     this.props.setStage(this.props.app.id, event);
   };
 
+  handleFlagAsClosed = () => {
+    ReactGA.event({ category: "Application", action: "Flag as Closed" });
+    this.handleChangeStage("hidden");
+    this.props.markClosed(this.props.app.listing_id);
+  };
+
   handleHide = () => {
     ReactGA.event({
       category: "Application",
-      action: "Hide Listing"
+      action: "Hide Listing",
     });
     this.setState({ stageTitle: "hidden" });
     this.props.setStage(this.props.app.id, "hidden");
@@ -43,9 +52,9 @@ class ApplicationRow extends Component {
   renderButton = () => {
     if (this.props.app.applied) {
       return (
-        <RaisedButton onClick={this.handleApplied} disabled>
+        <FlatButton onClick={this.handleApplied} disabled>
           Applied
-        </RaisedButton>
+        </FlatButton>
       );
     }
     return (
@@ -66,11 +75,28 @@ class ApplicationRow extends Component {
     );
   };
 
+  renderFlag = () => (
+    <div style={{ textAlign: "center" }}>
+      <ConfirmButton
+        icon={
+          <Flag
+            color="red"
+            tooltip="Font Icon"
+            style={{ fontSize: "50%", color: "red" }}
+          />
+        }
+        confirmMessage="Flag Link"
+        onSubmit={this.handleFlagAsClosed}
+        isFlat
+      />
+    </div>
+  );
+
   renderStage = () => (
     <Dropdown
       disabled={!this.props.app.applied}
       onSelect={this.handleChangeStage}
-      id={"dropdown-" + this.props.app.id}
+      id={`dropdown-${this.props.app.id}`}
     >
       <Dropdown.Toggle>{this.state.stageTitle}</Dropdown.Toggle>
       <Dropdown.Menu>
@@ -94,6 +120,7 @@ class ApplicationRow extends Component {
         <tr>
           <td>
             <strong>{this.props.app.company}</strong>
+            <br /> {this.props.app.title}
           </td>
           <td>
             <ReactGA.OutboundLink
@@ -103,11 +130,8 @@ class ApplicationRow extends Component {
             >
               View Job Posting
             </ReactGA.OutboundLink>
-            {/* <a target="_blank" href={this.props.app.url}>
-              View Job Posting
-            </a> */}
           </td>
-          <td>{this.props.app.title}</td>
+          <td>{this.renderFlag()}</td>
           <td>
             {this.renderStage()}{" "}
             {this.props.app.stage === this.state.stageTitle ? "" : "Syncing..."}

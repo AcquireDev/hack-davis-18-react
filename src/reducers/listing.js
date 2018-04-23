@@ -1,13 +1,13 @@
 import {
   CREATE_LISTING,
   CREATE_LISTING_FAILURE,
-  CREATE_LISTING_SUCCESS
+  CREATE_LISTING_SUCCESS,
 } from "../actions/listings";
 
 const initialState = {
   submitting_listing: false,
   last_added_id: -1,
-  error: ""
+  error: "",
 };
 
 const reducer = (state = initialState, action) => {
@@ -15,19 +15,19 @@ const reducer = (state = initialState, action) => {
     case CREATE_LISTING:
       return {
         ...state,
-        submitting_listing: true
+        submitting_listing: true,
       };
     case CREATE_LISTING_SUCCESS:
       return {
         ...state,
         submitting_listing: false,
-        last_added_id: action.result
+        last_added_id: action.result,
       };
     case CREATE_LISTING_FAILURE:
       return {
         ...state,
         submitting_listing: false,
-        error: action.error
+        error: action.error,
       };
     default:
       return state;
